@@ -1,34 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
+import HomePage from './pages/HomePage'
+import PortfolioPage from './pages/PortfolioPage'
+import CoinDetailsPage from './pages/CoinDetailsPage'
+import CoinPage from './pages/CoinPage'
+import SettingsPage from './pages/SettingsPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App">
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/portfolio">Portfolio</Link>
+          </li>
+          <li>
+            <Link to="/coin">Coin</Link>
+          </li>
+          <li>
+            <Link to="/coin-details">Coin Details</Link>
+          </li>
+          <li>
+            <Link to="/settings">Settings</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/coin" element={<CoinPage />} />
+        <Route path="/coin-details" element={<CoinDetailsPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+      </Routes>
+    </div>
   )
 }
 
