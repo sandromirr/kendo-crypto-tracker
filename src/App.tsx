@@ -1,42 +1,40 @@
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+import { ThemeProvider } from './contexts/ThemeContext'
 import './App.css'
 import HomePage from './pages/HomePage'
 import PortfolioPage from './pages/PortfolioPage'
 import CoinDetailsPage from './pages/CoinDetailsPage'
-import CoinPage from './pages/CoinPage'
+import CoinListPage from './pages/CoinListPage'
 import SettingsPage from './pages/SettingsPage'
+import NotFoundPage from './pages/NotFoundPage'
 
-function App() {
+const AppContent: React.FC = () => {
   return (
-    <div className="App">
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/portfolio">Portfolio</Link>
-          </li>
-          <li>
-            <Link to="/coin">Coin</Link>
-          </li>
-          <li>
-            <Link to="/coin-details">Coin Details</Link>
-          </li>
-          <li>
-            <Link to="/settings">Settings</Link>
-          </li>
-        </ul>
-      </nav>
-
+    <div className="App" style={{ 
+      width: '100%', 
+      minHeight: '100vh',
+      margin: 0,
+      padding: 0,
+      backgroundColor: 'var(--background-primary)',
+      color: 'var(--text-primary)'
+    }}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/coin" element={<CoinPage />} />
+        <Route path="/coin" element={<CoinListPage />} />
         <Route path="/coin-details" element={<CoinDetailsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   )
 }
 
