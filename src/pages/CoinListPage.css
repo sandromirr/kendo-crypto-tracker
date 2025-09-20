@@ -1,0 +1,93 @@
+.coin-list-container {
+  padding: 1rem;
+}
+
+.coin-list-header {
+  margin-bottom: 1.5rem;
+}
+
+.coin-list-header h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.coin-list-header p {
+  color: #4b5563;
+}
+
+.filter-section {
+  margin-bottom: 1.5rem;
+}
+
+.filter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.time-frame-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.market-overview {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem 0.5rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.market-overview::-webkit-scrollbar {
+  display: none;
+}
+
+.market-card {
+  padding: 1rem;
+  min-width: 220px;
+  flex: 1;
+}
+
+.market-card-title {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.market-card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.25rem 0;
+}
+
+.market-card-change {
+  font-size: 0.875rem;
+}
+
+.positive-change {
+  color: #10b981;
+}
+
+.negative-change {
+  color: #ef4444;
+}
+
+.grid-container {
+  height: 600px;
+}
