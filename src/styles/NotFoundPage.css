@@ -1,0 +1,275 @@
+/* NotFoundPage.css */
+
+.not-found-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7ff 0%, #e9ecff 100%);
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.4s ease-out;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+}
+
+.decorative-circle-1 {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(100,149,237,0.1) 0%, transparent 70%);
+  filter: blur(40px);
+}
+
+.decorative-circle-2 {
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(138,43,226,0.1) 0%, transparent 70%);
+  filter: blur(40px);
+}
+
+.not-found-content {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 4rem 2rem;
+  max-width: 600px;
+  width: 90%;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  margin: 2rem 0;
+}
+
+.emoji-container {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  animation: bounce 3s ease-in-out infinite;
+  transform-origin: center bottom;
+  display: inline-block;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.not-found-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  background: linear-gradient(135deg, #ff4d4d 0%, #f9cb28 50%, #ff4d4d 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: gradientShift 6s ease infinite;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+  position: relative;
+  z-index: 1;
+  padding: 0 0.5rem;
+  transition: all 0.5s ease-in-out;
+  font-family: 'Arial', sans-serif;
+}
+
+.not-found-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0;
+  width: 100%;
+  height: 0.5rem;
+  background: linear-gradient(90deg, rgba(0,242,254,0.1), rgba(79,172,254,0.3), rgba(0,242,254,0.1));
+  border-radius: 0.25rem;
+  z-index: 0;
+  transition: all 0.5s ease-in-out;
+  transform: scaleX(0.9) translateY(0.5rem);
+}
+
+.not-found-subtitle {
+  font-size: 1.5rem;
+  color: #4a5568;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.not-found-description {
+  color: #718096;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.not-found-button {
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.not-found-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.not-found-button:active {
+  transform: translateY(0);
+}
+
+.not-found-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  z-index: -1;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.not-found-button:hover::before {
+  opacity: 1;
+}
+
+.not-found-footer {
+  margin-top: 3rem;
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.not-found-footer a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border-bottom: 1px dashed currentColor;
+  padding-bottom: 1px;
+}
+
+.not-found-footer a:hover {
+  color: #4f46e5;
+  border-bottom-style: solid;
+}
+
+@keyframes bounce {
+  0%, 100% { 
+    transform: translateY(0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% { 
+    transform: translateY(-15px) rotate(5deg);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Error code styles */
+.error-code {
+  font-size: 6rem !important;
+  font-weight: 900 !important;
+  margin: 0 0 0.5rem !important;
+  background: linear-gradient(135deg, #ff4d4d 0%, #f9cb28 50%, #ff4d4d 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-size: 200% auto !important;
+  animation: gradientShift 6s ease infinite !important;
+  line-height: 1 !important;
+  opacity: 0.9 !important;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.16) !important;
+  font-family: 'Arial', sans-serif !important;
+}
+
+/* Button container */
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+}
+
+/* Button styles */
+.primary-button {
+  padding: 0.8rem 2rem !important;
+  border-radius: 50px !important;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.3) !important;
+  transition: all 0.3s ease, transform 0.2s ease !important;
+  transform: translateY(0) !important;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px 0 rgba(79, 70, 229, 0.4) !important;
+}
+
+.secondary-button {
+  padding: 0.8rem 2rem !important;
+  border-radius: 50px !important;
+  border: 2px solid rgba(0, 0, 0, 0.1) !important;
+  color: rgba(0, 0, 0, 0.8) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease, transform 0.2s ease !important;
+  transform: translateY(0) !important;
+  box-sizing: border-box !important;
+}
+
+.secondary-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.primary-button:active,
+.secondary-button:active {
+  transform: translateY(0) !important;
+}
+
+/* Emoji hover effect */
+.emoji-container:hover {
+  animation: none !important;
+  transform: scale(1.1) !important;
+}

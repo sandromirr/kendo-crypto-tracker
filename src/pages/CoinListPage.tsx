@@ -5,33 +5,12 @@ import { Button } from '@progress/kendo-react-buttons';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { Input } from '@progress/kendo-react-inputs';
 import { Card, CardHeader, CardTitle, CardBody } from '@progress/kendo-react-layout';
-import './CoinListPage.css';
+import '../styles/CoinListPage.css';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import { Link } from 'react-router-dom';
 import { fetchMarketCoins, type CoinListItem } from '../services/coingecko';
-import ThemeToggle from '../components/ThemeToggle';
 
 interface Coin extends CoinListItem {}
-
-// Minimal mapping from common tickers to Ledger ledgerId strings used by @ledgerhq/crypto-icons
-// If a ticker is not found, we pass a best-effort lowercase string; the component will fallback to a letter icon.
-const ledgerIdBySymbol: Record<string, string> = {
-  btc: 'bitcoin',
-  eth: 'ethereum',
-  ada: 'cardano',
-  sol: 'solana',
-  xrp: 'ripple',
-  dot: 'polkadot',
-  doge: 'dogecoin',
-  avax: 'avalanche',
-  matic: 'polygon',
-  link: 'chainlink'
-};
-
-const toLedgerId = (symbol: string): string => {
-  const s = symbol?.toLowerCase() ?? '';
-  return ledgerIdBySymbol[s] ?? s;
-};
 
 const CoinListPage: React.FC = () => {
   // UI constants
@@ -80,7 +59,6 @@ const CoinListPage: React.FC = () => {
 
   return (
     <div className="coin-list-container">
-      <ThemeToggle />
       {/* Header Section */}
       <div className="coin-list-header">
         <h1>Cryptocurrency Prices</h1>

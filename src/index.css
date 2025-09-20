@@ -3,6 +3,8 @@
 /* Global CSS Reset and Base Styles */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 :root {
@@ -66,31 +68,7 @@
   --transition-slow: 350ms ease-in-out;
 }
 
-/* Dark Theme Variables */
-.dark-theme {
-  --text-primary: #ffffff;
-  --text-secondary: #b3b3b3;
-  --text-disabled: #666666;
-  --background-primary: #121212;
-  --background-secondary: #1e1e1e;
-  --background-tertiary: #2d2d2d;
-  --border-color: #333333;
-  --divider-color: #333333;
-}
-
-/* System preference fallback */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light-theme) {
-    --text-primary: #ffffff;
-    --text-secondary: #b3b3b3;
-    --text-disabled: #666666;
-    --background-primary: #121212;
-    --background-secondary: #1e1e1e;
-    --background-tertiary: #2d2d2d;
-    --border-color: #333333;
-    --divider-color: #333333;
-  }
-}
+/* Light theme is the default */
 
 /* Base HTML and Body Styles */
 html {

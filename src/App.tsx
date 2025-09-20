@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom'
-import { ThemeProvider } from './contexts/ThemeContext'
 import './App.css'
 import HomePage from './pages/HomePage'
 import PortfolioPage from './pages/PortfolioPage'
@@ -15,8 +14,8 @@ const AppContent: React.FC = () => {
       minHeight: '100vh',
       margin: 0,
       padding: 0,
-      backgroundColor: 'var(--background-primary)',
-      color: 'var(--text-primary)'
+      backgroundColor: '#ffffff',
+      color: '#212121'
     }}>
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -31,11 +30,7 @@ const AppContent: React.FC = () => {
 }
 
 function App() {
-  return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
-  )
+  return <AppContent />;
 }
 
 export default App
