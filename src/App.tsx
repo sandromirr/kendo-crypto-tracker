@@ -21,8 +21,8 @@ const AppContent: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/coin" element={<CoinListPage />} />
-        <Route path="/coin-details" element={<CoinDetailsPage />} />
+        <Route path="/coin-list" element={<CoinListPage />} />
+        <Route path="/coin/:id" element={<CoinDetailsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
