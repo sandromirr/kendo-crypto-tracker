@@ -319,6 +319,146 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* Education Section */}
+      <section style={{
+        padding: '5rem 0',
+        backgroundColor: '#ffffff',
+        borderTop: '1px solid #e9ecef',
+        borderBottom: '1px solid #e9ecef'
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          padding: '0 1rem'
+        }}>
+          <h2 style={{
+            textAlign: 'center',
+            marginBottom: '3rem',
+            fontSize: '2rem',
+            fontWeight: '600',
+            color: '#212529'
+          }}>
+            Crypto Education Center
+          </h2>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2rem',
+            marginTop: '2rem'
+          }}>
+            {[
+              {
+                title: 'Getting Started with Crypto',
+                description: 'Learn the basics of cryptocurrency, blockchain technology, and how to safely enter the crypto space.',
+                icon: '📚',
+                level: 'Beginner',
+                duration: '15 min read'
+              },
+              {
+                title: 'Trading Strategies',
+                description: 'Discover different trading strategies, from day trading to HODLing, and find what works for you.',
+                icon: '📈',
+                level: 'Intermediate',
+                duration: '20 min read'
+              },
+              {
+                title: 'Security Best Practices',
+                description: 'Essential security measures to protect your crypto assets from common threats and scams.',
+                icon: '🔒',
+                level: 'All Levels',
+                duration: '10 min read'
+              }
+            ].map((lesson, index) => (
+              <Card key={index} style={{ 
+                height: '100%',
+                boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
+                border: 'none',
+                borderRadius: '8px',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                display: 'flex',
+                flexDirection: 'column',
+                ':hover': {
+                  transform: 'translateY(-5px)',
+                  boxShadow: '0 5px 25px rgba(0,0,0,0.12)'
+                }
+              }}>
+                <CardBody style={{ 
+                  padding: '2rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flex: '1 0 auto'
+                }}>
+                  <div style={{
+                    fontSize: '2.5rem',
+                    marginBottom: '1rem'
+                  }}>
+                    {lesson.icon}
+                  </div>
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: '600',
+                    marginBottom: '0.75rem',
+                    color: '#212529'
+                  }}>
+                    {lesson.title}
+                  </h3>
+                  <p style={{
+                    color: '#6c757d',
+                    marginBottom: '1.5rem',
+                    lineHeight: '1.6'
+                  }}>
+                    {lesson.description}
+                  </p>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: 'auto',
+                    paddingTop: '1rem',
+                    borderTop: '1px solid #e9ecef'
+                  }}>
+                    <span style={{
+                      backgroundColor: '#e9ecef',
+                      color: '#495057',
+                      padding: '0.25rem 0.75rem',
+                      borderRadius: '50px',
+                      fontSize: '0.8rem',
+                      fontWeight: '500'
+                    }}>
+                      {lesson.level}
+                    </span>
+                    <span style={{
+                      color: '#6c757d',
+                      fontSize: '0.875rem'
+                    }}>
+                      {lesson.duration}
+                    </span>
+                  </div>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+
+          <div style={{
+            textAlign: 'center',
+            marginTop: '2rem'
+          }}>
+            <Button
+              themeColor="primary"
+              rounded="medium"
+              onClick={() => navigate('/education')}
+              style={{
+                padding: '0.75rem 2rem',
+                fontWeight: '600'
+              }}
+            >
+              Explore All Learning Resources
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ / Q&A Section */}
       <section className="faq-section" style={{
         padding: '6rem 0',
