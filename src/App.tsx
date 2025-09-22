@@ -6,6 +6,7 @@ import CoinDetailsPage from './pages/CoinDetailsPage'
 import CoinListPage from './pages/CoinListPage'
 import SettingsPage from './pages/SettingsPage'
 import EducationPage from './pages/EducationPage'
+import CourseDetailsPage from './pages/CourseDetailsPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 const AppContent: React.FC = () => {
@@ -25,6 +26,7 @@ const AppContent: React.FC = () => {
         <Route path="/coin/:id" element={<CoinDetailsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/education" element={<EducationPage />} />
+        <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

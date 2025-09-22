@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@progress/kendo-react-buttons';
 import { Card, CardBody, CardTitle, PanelBar, PanelBarItem } from '@progress/kendo-react-layout';
+import { faqs } from '../data/faq-data';
+import { features } from '../data/features-data';
+import { stats } from '../data/stats-data';
 import '../styles/HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -12,75 +15,7 @@ const HomePage: React.FC = () => {
     setIsVisible(true);
   }, []);
 
-  const features = [
-    {
-      icon: '📊',
-      title: 'Real-time Tracking',
-      description: 'Monitor cryptocurrency prices and market trends in real-time with live updates.',
-      color: 'primary'
-    },
-    {
-      icon: '💼',
-      title: 'Portfolio Management',
-      description: 'Track your investments and analyze portfolio performance with detailed analytics.',
-      color: 'success'
-    },
-    {
-      icon: '📈',
-      title: 'Market Analysis',
-      description: 'Get insights into market trends and make informed trading decisions.',
-      color: 'warning'
-    },
-    {
-      icon: '🔔',
-      title: 'Price Alerts',
-      description: 'Set custom price alerts and never miss important market movements.',
-      color: 'info'
-    }
-  ];
 
-  const stats = [
-    { label: 'Cryptocurrencies', value: '10,000+', icon: '🪙' },
-    { label: 'Active Users', value: '1M+', icon: '👥' },
-    { label: 'Markets Tracked', value: '500+', icon: '🌍' },
-    { label: 'Price Updates', value: '24/7', icon: '⚡' }
-  ];
-
-  const faqs = [
-    {
-      q: 'How often are prices updated?',
-      a: 'Prices are updated in real-time using the latest available market data from our provider.'
-    },
-    {
-      q: 'Can I import my portfolio?',
-      a: 'Yes — you can manually add holdings today. CSV import is coming soon.'
-    },
-    {
-      q: 'Are alerts available?',
-      a: 'You can set up price alerts from the coin details page; push and email alerts will be available later.'
-    }
-    ,
-    {
-      q: 'Where does your data come from?',
-      a: 'We aggregate market data from leading public APIs and exchanges to give broad coverage and redundancy.'
-    },
-    {
-      q: 'Is my data secure?',
-      a: 'We follow best practices for data storage and transport. Sensitive data is encrypted in transit. For production use, ensure you follow our security recommendations.'
-    },
-    {
-      q: 'Do you offer an API?',
-      a: 'A public API is planned. For now, use the UI. If you need programmatic access, reach out via our contact channels.'
-    },
-    {
-      q: 'Which coins are supported?',
-      a: 'We cover the top 10,000 cryptocurrencies by market presence and continuously add more as data sources expand.'
-    },
-    {
-      q: 'Is there a mobile app?',
-      a: 'A mobile app is in our roadmap. The web app is mobile-responsive today for on-the-go use.'
-    }
-  ];
 
   return (
     <div className="home-container">
