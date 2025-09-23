@@ -9,8 +9,14 @@ import '../styles/CoinListPage.css';
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
 import { Link } from 'react-router-dom';
 import { fetchMarketCoins, type CoinListItem } from '../services/coingecko';
+import MarketOverview from '../components/MarketOverview';
+import { formatCurrency, formatPercentage } from '../utils/numberUtils';
 
 interface Coin extends CoinListItem {}
+
+interface GridCoin extends CoinListItem {
+  // Add any additional properties needed for the grid
+}
 
 const CoinListPage: React.FC = () => {
   // UI constants
@@ -18,7 +24,7 @@ const CoinListPage: React.FC = () => {
   const timeFrames = ['24h', '7d', '30d', '90d', '1y'];
   
   // Live data state
-  const [coins, setCoins] = useState<Coin[]>([]);
+  const [coins, setCoins] = useState<GridCoin[]>([]);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [vsCurrency, setVsCurrency] = useState<string>('usd');
   const [loading, setLoading] = useState<boolean>(false);
@@ -66,28 +72,7 @@ const CoinListPage: React.FC = () => {
       </div>
 
       {/* Market Overview Cards */}
-      <div className="market-overview">
-        <Card className="market-card">
-          <div className="market-card-title">Total Market Cap</div>
-          <div className="market-card-value">$2.1T</div>
-          <div className="market-card-change positive-change">+5.2%</div>
-        </Card>
-        <Card className="market-card">
-          <div className="market-card-title">24h Volume</div>
-          <div className="market-card-value">$120.5B</div>
-          <div className="market-card-change positive-change">+12.3%</div>
-        </Card>
-        <Card className="market-card">
-          <div className="market-card-title">BTC Dominance</div>
-          <div className="market-card-value">42.8%</div>
-          <div className="market-card-change negative-change">-1.2%</div>
-        </Card>
-        <Card className="market-card">
-          <div className="market-card-title">ETH Dominance</div>
-          <div className="market-card-value">18.3%</div>
-          <div className="market-card-change positive-change">+0.8%</div>
-        </Card>
-      </div>
+      <MarketOverview />
 
       {/* Filters Section */}
       <Card className="filter-section">
@@ -186,20 +171,28 @@ const CoinListPage: React.FC = () => {
               <GridColumn 
                 field="price" 
                 title="Price" 
-                format="{0:c}" 
                 width="15%"
+                cells={{
+                  data: (props: { dataItem: GridCoin }) => {
+                    const price = props.dataItem.price;
+                    return (
+                      <td>
+                        {formatCurrency(price, vsCurrency, price < 0.01 ? 6 : 2)}
+                      </td>
+                    );
+                  }
+                }}
               />
               <GridColumn 
                 field="change24h" 
                 title="24h %"
                 width="12%"
                 cells={{
-                  data: (props: any) => {
-                    const dataItem = props.dataItem as Coin;
-                    const value = dataItem.change24h;
+                  data: (props: { dataItem: GridCoin }) => {
+                    const value = props.dataItem.change24h;
                     return (
                       <td className={`change-cell ${value >= 0 ? 'positive-change' : 'negative-change'}`}>
-                        {value >= 0 ? '+' : ''}{value}%
+                        {formatPercentage(value, Math.abs(value) < 0.01 ? 4 : 2)}
                       </td>
                     );
                   }
@@ -210,12 +203,11 @@ const CoinListPage: React.FC = () => {
                 title="7d %"
                 width="12%"
                 cells={{
-                  data: (props: any) => {
-                    const dataItem = props.dataItem as Coin;
-                    const value = dataItem.change7d;
+                  data: (props: { dataItem: GridCoin }) => {
+                    const value = props.dataItem.change7d;
                     return (
                       <td className={`change-cell ${value >= 0 ? 'positive-change' : 'negative-change'}`}>
-                        {value >= 0 ? '+' : ''}{value}%
+                        {formatPercentage(value, Math.abs(value) < 0.01 ? 4 : 2)}
                       </td>
                     );
                   }
@@ -224,14 +216,26 @@ const CoinListPage: React.FC = () => {
               <GridColumn 
                 field="marketCap" 
                 title="Market Cap" 
-                format="{0:c}" 
                 width="18%"
+                cells={{
+                  data: (props: { dataItem: GridCoin }) => (
+                    <td>
+                      {formatCurrency(props.dataItem.marketCap, vsCurrency, 0)}
+                    </td>
+                  )
+                }}
               />
               <GridColumn 
                 field="volume24h" 
                 title="Volume (24h)" 
-                format="{0:c}" 
                 width="18%"
+                cells={{
+                  data: (props: { dataItem: GridCoin }) => (
+                    <td>
+                      {formatCurrency(props.dataItem.volume24h, vsCurrency, 0)}
+                    </td>
+                  )
+                }}
               />
               <GridColumn 
                 width="10%"
@@ -240,7 +244,7 @@ const CoinListPage: React.FC = () => {
                     const dataItem = props.dataItem as Coin;
                     return (
                       <td className="action-cell">
-                        <Link to={`/coin-details?symbol=${encodeURIComponent(dataItem.symbol)}`}>
+                        <Link to={`/coin/${encodeURIComponent(dataItem.symbol)}`}>
                           <Button themeColor="primary" size="small" className="view-details-btn">
                             View Details
                           </Button>

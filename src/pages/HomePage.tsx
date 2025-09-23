@@ -15,33 +15,18 @@ const HomePage: React.FC = () => {
     setIsVisible(true);
   }, []);
 
-
-
   return (
     <div className="home-container">
-      <style>{`
-        @keyframes gradientBG {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-      `}</style>
       {/* Hero Section */}
-      <section className="hero-section" style={{
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%)',
-        padding: '6rem 0 5rem',
-        color: 'white',
-        position: 'relative',
-        overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
-        backgroundSize: '200% 200%',
-        animation: 'gradientBG 15s ease infinite'
-      }}>
-        <div className="hero-content" style={{
-          transform: isVisible ? 'translateY(0)' : 'translateY(50px)',
-          opacity: isVisible ? 1 : 0
-        }}>
-          <h1 className="hero-title" style={{ marginBottom: '1rem' }}>
+      <section className="hero-section">
+        <div 
+          className="hero-content" 
+          style={{
+            transform: isVisible ? 'translateY(0)' : 'translateY(50px)',
+            opacity: isVisible ? 1 : 0
+          }}
+        >
+          <h1 className="hero-title">
             Crypto Tracker Pro
           </h1>
           
@@ -63,13 +48,12 @@ const HomePage: React.FC = () => {
             </Button>
 
             <Button
-              className="primary-button"
+              className="primary-button primary-button-outline"
               themeColor="primary"
-              fillMode="solid"
+              fillMode="outline"
               size="large"
-              onClick={() => navigate('/coin-list')}
+              onClick={() => navigate('/coins')}
               aria-label="View markets and coins list"
-              style={{ color: 'white', borderColor: 'white' }}
             >
               <span aria-hidden>📊</span>
               <span>View Markets</span>
@@ -81,13 +65,11 @@ const HomePage: React.FC = () => {
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className="stat-card stat-item"
+                className={`stat-card stat-item ${isVisible ? 'visible' : ''}`}
                 role="group"
                 aria-labelledby={`stat-${index}-label`}
                 style={{
-                  transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-                  opacity: isVisible ? 1 : 0,
-                  transition: `all 0.8s ease ${0.2 + index * 0.1}s`
+                  transitionDelay: `${0.2 + index * 0.1}s`
                 }}
               >
                 <dt className="stat-icon" id={`stat-${index}-label`}>

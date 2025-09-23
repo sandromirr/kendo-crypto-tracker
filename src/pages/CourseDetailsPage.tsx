@@ -5,16 +5,7 @@ import { Button } from '@progress/kendo-react-buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import "../styles/CourseDetailsPage.css";
-
-interface Course {
-  id: number;
-  title: string;
-  description: string;
-  icon: string;
-  level: string;
-  duration: string;
-  lessons: string[];
-}
+import type { Course } from '../models/course';
 
 // Mock data - in a real app, this would come from an API
 const mockCourses: Course[] = [

@@ -10,11 +10,9 @@ import courses from '../data/courses-data';
 import '../styles/EducationPage.css';
 
 const EducationPage: React.FC = () => {
-  // Filter UI states
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [selectedDuration, setSelectedDuration] = useState('all');
   
-  // State for the quick enrollment dialog
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showEnrollDialog, setShowEnrollDialog] = useState<boolean>(false);
 
@@ -28,7 +26,6 @@ const EducationPage: React.FC = () => {
     setSelectedCourse(null);
   };
 
-  // Filter courses based on selected filters
   const filteredCourses = courses.filter(course => {
     const matchesLevel = selectedLevel === 'all' || course.level === selectedLevel;
     
