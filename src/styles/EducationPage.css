@@ -278,9 +278,15 @@
 
 .card-actions {
   display: flex;
-  justify-content: space-between;
+  gap: 12px;
   padding: 16px;
   border-top: 1px solid #e0e0e0;
+}
+
+.card-actions > * {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
 }
 
 /* Enroll Button Styles */
@@ -288,12 +294,17 @@
   background-color: #6f42c1; /* Purple color */
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  font-size: 0.95rem;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .enroll-button:hover {

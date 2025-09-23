@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardBody, CardActions } from '@progress/kendo-react-layout';
 import { Button } from '@progress/kendo-react-buttons';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
@@ -10,6 +10,7 @@ import courses from '../data/courses-data';
 import '../styles/EducationPage.css';
 
 const EducationPage: React.FC = () => {
+  const navigate = useNavigate();
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [selectedDuration, setSelectedDuration] = useState('all');
   
@@ -43,6 +44,10 @@ const EducationPage: React.FC = () => {
     
     return matchesLevel && matchesDuration;
   });
+
+  function handleDetails(course: Course): void {
+    navigate(`/courses/${course.id}`);
+  }
 
   return (
     <div className="education-page">
@@ -94,17 +99,14 @@ const EducationPage: React.FC = () => {
               <p className="course-description">{course.description}</p>
             </CardBody>
             <CardActions className="card-actions">
-              <Link to={`/courses/${course.id}`} style={{ textDecoration: 'none' }}>
-                <Button
+              <Button
                   themeColor="primary"
-                  className="view-details-button"
-                >
-                  View Details
+                  onClick={() => handleDetails(course)}
+              >
+                  Details
                 </Button>
-              </Link>
               <Button 
-                themeColor={'primary'} 
-                className="enroll-button"
+                themeColor='primary' 
                 onClick={() => handleEnrollClick(course)}
               >
                 Enroll Now

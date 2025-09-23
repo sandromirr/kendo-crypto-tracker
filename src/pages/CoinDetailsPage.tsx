@@ -5,6 +5,7 @@ import { Card, CardBody } from '@progress/kendo-react-layout';
 import { Button } from '@progress/kendo-react-buttons';
 import { Chart, ChartSeries, ChartSeriesItem, ChartCategoryAxis, ChartCategoryAxisItem, ChartValueAxis, ChartValueAxisItem, ChartTooltip } from '@progress/kendo-react-charts';
 import { Skeleton } from '@progress/kendo-react-indicators';
+import { Grid, GridColumn } from '@progress/kendo-react-grid';
 
 // Styled components
 const PageContainer = styled.div`
@@ -93,6 +94,17 @@ const mockCoinData = {
   }
 };
 
+interface Purchase {
+  id: string;
+  coinId: string;
+  amount: number;
+  pricePerCoin: number;
+  date: string;
+  totalValue: number;
+  currentValue: number;
+  profitLoss: number;
+}
+
 interface CoinData {
   id: string;
   name: string;
@@ -129,6 +141,35 @@ const CoinDetailsPage: React.FC = () => {
   const [coin, setCoin] = useState<CoinData | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState('7d');
+  const [purchases, setPurchases] = useState<Purchase[]>([]);
+
+  // Mock purchase data - in a real app, this would come from your backend
+  useEffect(() => {
+    // Simulate fetching purchases for this coin
+    const mockPurchases: Purchase[] = [
+      {
+        id: '1',
+        coinId: coinId || '',
+        amount: 0.5,
+        pricePerCoin: 45000,
+        date: '2025-08-15',
+        totalValue: 22500,
+        currentValue: coin ? (0.5 * coin.current_price) : 0,
+        profitLoss: coin ? (0.5 * coin.current_price - 22500) : 0
+      },
+      {
+        id: '2',
+        coinId: coinId || '',
+        amount: 0.75,
+        pricePerCoin: 48000,
+        date: '2025-09-01',
+        totalValue: 36000,
+        currentValue: coin ? (0.75 * coin.current_price) : 0,
+        profitLoss: coin ? (0.75 * coin.current_price - 36000) : 0
+      }
+    ];
+    setPurchases(mockPurchases);
+  }, [coinId, coin]);
 
   useEffect(() => {
     // Simulate API call
@@ -345,6 +386,96 @@ const CoinDetailsPage: React.FC = () => {
           <StatValue>{coin.total_supply.toLocaleString()} {coin.symbol.toUpperCase()}</StatValue>
         </StatCard>
       </StatsGrid>
+
+      {/* My Purchases Section */}
+      <div style={{ marginTop: '3rem' }}>
+        <h2>My {coin?.name} Purchases</h2>
+        {purchases.length > 0 ? (
+          <div style={{ marginTop: '1rem' }}>
+            {/* Summary Cards */}
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              marginBottom: '2rem',
+              padding: '1.5rem',
+              backgroundColor: '#f8f9fa',
+              borderRadius: '8px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+            }}>
+              <div>
+                <h3>Total Investment</h3>
+                <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+                  {purchases.reduce((sum, p) => sum + p.totalValue, 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                </div>
+              </div>
+              <div>
+                <h3>Current Value</h3>
+                <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+                  {purchases.reduce((sum, p) => sum + p.currentValue, 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                </div>
+              </div>
+              <div>
+                <h3>Total Profit/Loss</h3>
+                {(() => {
+                  const totalProfitLoss = purchases.reduce((sum, p) => sum + p.profitLoss, 0);
+                  const totalInvested = purchases.reduce((sum, p) => sum + p.totalValue, 0);
+                  const percentage = (totalProfitLoss / totalInvested) * 100;
+                  return (
+                    <div 
+                      key="profit-loss"
+                      style={{ 
+                        fontSize: '1.5rem', 
+                        fontWeight: 'bold', 
+                        color: totalProfitLoss >= 0 ? '#00c853' : '#ff3d00' 
+                      }}
+                    >
+                      {totalProfitLoss >= 0 ? '+' : ''}{totalProfitLoss.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                      <span style={{ fontSize: '1rem', marginLeft: '0.5rem' }}>
+                        ({percentage.toFixed(2)}%)
+                      </span>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+
+            {/* Purchases Table */}
+            <Grid data={purchases} style={{ marginBottom: '2rem' }}>
+              <GridColumn field="date" title="Date" width="120px" />
+              <GridColumn field="amount" title="Amount" width="120px" format="{0:n4}" />
+              <GridColumn field="pricePerCoin" title="Price/Coin" format="{0:c2}" width="150px" />
+              <GridColumn field="totalValue" title="Total Paid" format="{0:c2}" width="150px" />
+              <GridColumn field="currentValue" title="Current Value" format="{0:c2}" width="150px" />
+              <GridColumn 
+                field="profitLoss" 
+                title="P/L" 
+                width="150px"
+                cells={{
+                  data: (props: any) => {
+                    const profitLoss = props.dataItem.profitLoss;
+                    const totalValue = props.dataItem.totalValue;
+                    const percentage = (profitLoss / totalValue) * 100;
+                    const isPositive = profitLoss >= 0;
+                    return (
+                      <span style={{ color: isPositive ? '#00c853' : '#ff3d00' }}>
+                        {isPositive ? '+' : ''}{profitLoss.toFixed(2)} $
+                        ({percentage.toFixed(2)}%)
+                      </span>
+                    );
+                  }
+                }}
+              />
+            </Grid>
+          </div>
+        ) : (
+          <Card style={{ padding: '2rem', textAlign: 'center' }}>
+            <p>You haven't purchased any {coin?.name} yet.</p>
+            <Button themeColor="primary" style={{ marginTop: '1rem' }}>
+              Buy {coin?.symbol.toUpperCase()}
+            </Button>
+          </Card>
+        )}
+      </div>
     </PageContainer>
   );
 };
