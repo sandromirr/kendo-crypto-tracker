@@ -1,64 +1,197 @@
-/* Main container */
+/* Modern Color Variables */
+:root {
+  --primary-color: #3f51b5;
+  --primary-light: #757de8;
+  --primary-dark: #002984;
+  --secondary-color: #f50057;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --warning-color: #f59e0b;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --hover-bg: #f3f4f6;
+  --transition: all 0.3s ease;
+}
+
+/* Base Styles */
 .coin-list-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 2rem;
+  background-color: var(--bg-color);
+  min-height: 100vh;
 }
 
-/* Filter section */
+/* Filter Section */
 .filter-section {
-  margin-bottom: 24px;
-  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--card-bg);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.filter-section:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .filter-grid {
   display: grid;
-  grid-template-columns: 1fr 200px 200px auto;
-  gap: 16px;
-  align-items: end;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+  align-items: flex-end;
 }
 
 .filter-item {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
-/* Search input */
+/* Search Input */
 .search-container {
   position: relative;
+  width: 100%;
 }
 
 .search-container .k-icon {
   position: absolute;
-  left: 10px;
-  top: 10px;
-  color: #666;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
   z-index: 1;
+  font-size: 1.1rem;
 }
 
 .search-input {
-  padding-left: 36px !important;
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem !important;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: var(--transition);
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
 }
 
 .filter-label {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
-  margin-bottom: 8px;
-  color: #333;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  display: block;
 }
 
-/* Coins grid card */
-.coins-grid-card {
+/* Dropdown Styles */
+.k-dropdown .k-dropdown-wrap {
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  background-color: var(--card-bg);
+  transition: var(--transition);
 }
 
-/* Coin row styles */
+.k-dropdown .k-dropdown-wrap:hover,
+.k-dropdown .k-dropdown-wrap.k-state-focused {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+}
+
+/* Time Frame Buttons */
+.time-frame-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.time-frame-button {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.time-frame-button:hover {
+  background: var(--hover-bg);
+  color: var(--primary-color);
+  border-color: var(--primary-light);
+}
+
+.time-frame-button.k-state-selected {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Coins Grid */
+.coins-grid-card {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.coins-grid-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Table Styles */
+.k-grid {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.k-grid-header {
+  background-color: var(--bg-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.k-grid-header th {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  padding: 1rem;
+  background: none;
+}
+
+.k-grid td {
+  padding: 1rem;
+  border-color: var(--border-color);
+  transition: var(--transition);
+}
+
+.k-grid tbody tr:hover td {
+  background-color: rgba(63, 81, 181, 0.05);
+  cursor: pointer;
+}
+
+/* Coin Row Styles */
 .coin-name-cell {
-  padding: 8px !important;
+  display: flex;
+  align-items: center;
 }
 
 .coin-name-wrapper {
@@ -72,133 +205,188 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  padding: 2px;
+  border: 1px solid var(--border-color);
 }
 
 .coin-name {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
 }
 
 .coin-symbol {
-  font-size: 12px;
-  color: #666;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Price change indicators */
-.positive-change {
-  color: #10b981;
+/* Price Change Indicators */
+.price-change {
+  display: inline-flex;
+  align-items: center;
   font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.positive-change {
+  color: var(--success-color);
+  background-color: rgba(16, 185, 129, 0.1);
 }
 
 .negative-change {
-  color: #ef4444;
-  font-weight: 500;
+  color: var(--error-color);
+  background-color: rgba(239, 68, 68, 0.1);
 }
 
-/* Last updated text */
+/* Details Button */
+.details-button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: var(--transition);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.details-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Last Updated */
 .last-updated {
-  font-size: 12px;
-  color: #666;
-  margin-left: 12px;
-  font-weight: normal;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-left: 1rem;
+  opacity: 0.8;
 }
 
-/* Coin details dialog */
-.coin-details {
-  padding: 16px 0;
-}
-
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.detail-row:last-child {
-  border-bottom: none;
-}
-
-.detail-label {
-  font-weight: 600;
-  color: #555;
-}
-
-.detail-value {
-  font-weight: 500;
-}
-
-.dialog-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.dialog-coin-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #f5f5f5;
-}
-
-.dialog-subtitle {
-  font-size: 12px;
-  color: #666;
-  margin-top: 4px;
-}
-
-.dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid #eee;
-}
-
-/* Loading and error states */
+/* Loading and Error States */
 .loading-container,
 .error-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  min-height: 400px;
   text-align: center;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.loading-container p {
-  margin-top: 16px;
-  color: #666;
+.loading-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-icon {
+  font-size: 3rem;
+  color: var(--error-color);
+  margin-bottom: 1.5rem;
 }
 
 .error-container h2 {
-  color: #ef4444;
-  margin-bottom: 12px;
+  color: var(--error-color);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 
-.error-container p {
-  margin-bottom: 16px;
-  color: #666;
+.error-message {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  max-width: 500px;
+  line-height: 1.6;
 }
 
-/* Responsive styles */
+.retry-button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.retry-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Responsive Styles */
 @media (max-width: 1200px) {
   .filter-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
-  .filter-grid {
-    grid-template-columns: 1fr;
+  .coin-list-container {
+    padding: 1rem;
   }
   
-  .coin-list-container {
-    padding: 12px;
+  .k-grid {
+    font-size: 0.9rem;
   }
+  
+  .filter-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .time-frame-buttons {
+    justify-content: flex-start;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #111827;
+    --card-bg: #1f2937;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --border-color: #374151;
+    --hover-bg: #374151;
+  }
+  
+  .k-grid-header {
+    background-color: #111827;
+  }
+  
+  .k-grid tbody tr:hover td {
+    background-color: rgba(63, 81, 181, 0.2);
+  }
+  
+  .coin-logo {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  }
+}
   
   .k-grid {
     font-size: 13px;

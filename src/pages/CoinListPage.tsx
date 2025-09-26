@@ -75,41 +75,51 @@ const CoinListPage: React.FC = () => {
   };
 
   return (
-    <div className="coin-list-container">
+    <div className="coin-list-container" style={{ margin: '0 1.5rem' }}>
       <Header />
       
       {/* Market Overview Cards */}
       <MarketOverview />
 
       {/* Filters Section */}
-      <Card className="filter-section">
-        <CardHeader>
-          <CardTitle>Filter Assets</CardTitle>
-        </CardHeader>
+      <Card style={{ marginBottom: '1rem' }}>
         <CardBody>
-          <div className="filter-grid">
-            <div className="filter-item">
-              <label className="filter-label">Search</label>
-              <Input placeholder="Search by name or symbol" />
-            </div>
-            <div className="filter-item">
-              <label className="filter-label">Currency</label>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '1rem',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{ flex: '1 1 250px', minWidth: '200px' }}>
               <DropDownList 
                 data={currencies}
                 value={vsCurrency.toUpperCase()}
                 onChange={(e) => setVsCurrency(String(e.value).toLowerCase())}
-                className="dropdown"
+                style={{ width: '100%' }}
               />
             </div>
-            <div className="filter-item">
-              <label className="filter-label">Time Frame</label>
-              <div className="time-frame-buttons">
-                {timeFrames.map(time => (
-                  <Button key={time} togglable={true} className="time-frame-button">
-                    {time}
-                  </Button>
-                ))}
-              </div>
+            <div style={{ flex: '2 1 350px', minWidth: '250px' }}>
+              <Input 
+                placeholder="Search by name or symbol" 
+                style={{ width: '100%' }}
+              />
+            </div>
+            <div style={{ 
+              display: 'flex', 
+              gap: '0.5rem', 
+              flexWrap: 'wrap',
+              flex: '1 1 auto',
+              justifyContent: 'flex-end'
+            }}>
+              {timeFrames.map(time => (
+                <Button 
+                  key={time} 
+                  togglable={true} 
+                  style={{ minWidth: '50px' }}
+                >
+                  {time}
+                </Button>
+              ))}
             </div>
           </div>
         </CardBody>

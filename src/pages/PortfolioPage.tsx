@@ -160,32 +160,127 @@ const PortfolioPage: React.FC = () => {
       </div>
 
       {/* Portfolio Summary */}
-      <div className="summary-grid">
-        <Card className="card">
-          <CardHeader>
-            <CardTitle>Total Value</CardTitle>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '1rem',
+        marginBottom: '1.5rem'
+      }}>
+        {/* Total Value Card */}
+        <Card style={{
+          borderRadius: '12px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+          height: '100%',
+          border: '1px solid var(--border-color)'
+        }}>
+          <CardHeader style={{
+            borderBottom: '1px solid var(--border-color)',
+            padding: '1rem 1.25rem',
+            backgroundColor: 'var(--card-header-bg)'
+          }}>
+            <CardTitle style={{
+              fontSize: '0.875rem',
+              color: 'var(--text-secondary)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              margin: 0
+            }}>Total Value</CardTitle>
           </CardHeader>
-          <CardBody>
-            <div className="text-3xl font-bold">{formatCurrency(data.total_value)}</div>
-          </CardBody>
-        </Card>
-        <Card className="card">
-          <CardBody>
-            <CardSubtitle>24h Change</CardSubtitle>
-            <div className="flex items-center">
-              <CardTitle className={`text-2xl font-bold ${data.total_change_24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {formatCurrency(data.total_change_24h)}
-              </CardTitle>
-              <span className={`ml-2 text-sm ${data.change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                ({formatPercentage(data.change_percentage_24h)})
-              </span>
+          <CardBody style={{ padding: '1.25rem' }}>
+            <div style={{
+              fontSize: '1.75rem',
+              fontWeight: 600,
+              color: 'var(--text-primary)'
+            }}>
+              {formatCurrency(data.total_value)}
             </div>
           </CardBody>
         </Card>
-        <Card className="card">
-          <CardBody>
-            <CardSubtitle>Assets</CardSubtitle>
-            <CardTitle className="text-2xl font-bold">{data.coins.length}</CardTitle>
+
+        {/* 24h Change Card */}
+        <Card style={{
+          borderRadius: '12px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+          height: '100%',
+          border: '1px solid var(--border-color)'
+        }}>
+          <CardHeader style={{
+            borderBottom: '1px solid var(--border-color)',
+            padding: '1rem 1.25rem',
+            backgroundColor: 'var(--card-header-bg)'
+          }}>
+            <div style={{
+              fontSize: '0.875rem',
+              color: 'var(--text-secondary)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              margin: 0
+            }}>24h Change</div>
+          </CardHeader>
+          <CardBody style={{ padding: '1.25rem' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              flexWrap: 'wrap'
+            }}>
+              <div style={{
+                fontSize: '1.5rem',
+                fontWeight: 600,
+                color: data.total_change_24h >= 0 ? '#10b981' : '#ef4444'
+              }}>
+                {formatCurrency(data.total_change_24h)}
+              </div>
+              <div style={{
+                padding: '0.25rem 0.5rem',
+                borderRadius: '4px',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                backgroundColor: data.change_percentage_24h >= 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                color: data.change_percentage_24h >= 0 ? '#10b981' : '#ef4444',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.25rem'
+              }}>
+                {data.change_percentage_24h >= 0 ? '↑' : '↓'} {formatPercentage(data.change_percentage_24h)}
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+
+        {/* Assets Card */}
+        <Card style={{
+          borderRadius: '12px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+          height: '100%',
+          border: '1px solid var(--border-color)'
+        }}>
+          <CardHeader style={{
+            borderBottom: '1px solid var(--border-color)',
+            padding: '1rem 1.25rem',
+            backgroundColor: 'var(--card-header-bg)'
+          }}>
+            <div style={{
+              fontSize: '0.875rem',
+              color: 'var(--text-secondary)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              margin: 0
+            }}>Assets</div>
+          </CardHeader>
+          <CardBody style={{
+            padding: '1.25rem',
+            display: 'flex',
+            alignItems: 'center',
+            height: 'calc(100% - 60px)'
+          }}>
+            <div style={{
+              fontSize: '1.75rem',
+              fontWeight: 600,
+              color: 'var(--text-primary)'
+            }}>
+              {data.coins.length}
+            </div>
           </CardBody>
         </Card>
       </div>
