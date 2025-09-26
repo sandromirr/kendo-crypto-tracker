@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@progress/kendo-react-buttons';
 import { Card, CardBody, CardTitle, PanelBar, PanelBarItem } from '@progress/kendo-react-layout';
+// Dialog component removed as we're using a custom implementation
 import { faqs } from '../data/faq-data';
 import { features } from '../data/features-data';
 import { stats } from '../data/stats-data';
@@ -10,6 +11,21 @@ import '../styles/HomePage.css';
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const [isAssistantOpen, setIsAssistantOpen] = useState(false);
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAskQuestion = () => {
+    if (!question.trim()) return;
+    
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setAnswer(`I received your question: "${question}"`);
+      setIsLoading(false);
+    }, 1000);
+  };
 
   useEffect(() => {
     setIsVisible(true);
@@ -416,6 +432,166 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </footer>
+      {/* Assistant Button */}
+      <Button
+        className="assistant-button"
+        themeColor="primary"
+        fillMode="solid"
+        icon="question"
+        onClick={() => setIsAssistantOpen(prev => !prev)}
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          padding: 0,
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          zIndex: 1000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '24px'
+        }}
+        aria-label="Open assistant"
+      >
+        <span aria-hidden>{isAssistantOpen ? '✕' : '💬'}</span>
+      </Button>
+
+      {/* Assistant Dialog */}
+      {isAssistantOpen && (
+        <div style={{
+          position: 'fixed',
+          bottom: '100px',
+          right: '30px',
+          width: '350px',
+          maxHeight: '500px',
+          backgroundColor: 'white',
+          borderRadius: '12px',
+          boxShadow: '0 5px 30px rgba(0, 0, 0, 0.2)',
+          display: 'flex',
+          flexDirection: 'column',
+          zIndex: 1001,
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            backgroundColor: '#3f51b5',
+            color: 'white',
+            padding: '12px 16px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <h3 style={{ margin: 0, fontSize: '16px' }}>Crypto Assistant</h3>
+            <Button
+              fillMode="flat"
+              themeColor="light"
+              icon="x"
+              onClick={() => {
+                setIsAssistantOpen(false);
+                setQuestion('');
+                setAnswer('');
+              }}
+              style={{ color: 'white', padding: '4px' }}
+              aria-label="Close assistant"
+            />
+          </div>
+          <div style={{
+            padding: '16px',
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            overflowY: 'auto'
+          }}>
+            <div style={{ marginBottom: '15px', marginTop: 'auto' }}>
+              <div style={{
+                backgroundColor: '#f5f5f5',
+                padding: '12px',
+                borderRadius: '8px',
+                marginBottom: '16px',
+                fontSize: '14px',
+                lineHeight: '1.5',
+                color: '#333'
+              }}>
+                <p style={{ margin: '0 0 8px 0' }}>👋 Hi there! I'm your crypto assistant.</p>
+                <p style={{ margin: '8px 0 0 0' }}>Ask me anything about cryptocurrencies and trading!</p>
+              </div>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                <div style={{ 
+                  flex: 1,
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                  <input
+                    type="text"
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="Type your question..."
+                    style={{
+                      flex: 1,
+                      padding: '12px 16px',
+                      paddingRight: '40px',
+                      borderRadius: '20px',
+                      border: '1px solid #ddd',
+                      fontSize: '14px',
+                      outline: 'none',
+                      transition: 'border-color 0.2s'
+                      // Focus styles are handled by CSS
+                    }}
+                    onKeyPress={(e) => e.key === 'Enter' && handleAskQuestion()}
+                  />
+                  <button
+                    onClick={handleAskQuestion}
+                    disabled={isLoading || !question.trim()}
+                    style={{
+                      position: 'absolute',
+                      right: '8px',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: question.trim() ? '#3f51b5' : '#ccc',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '4px'
+                    }}
+                  >
+                    {isLoading ? '...' : '→'}
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            {answer && (
+              <div style={{
+                marginTop: '16px',
+                padding: '12px 16px',
+                backgroundColor: '#f0f4ff',
+                borderRadius: '8px',
+                borderTopLeftRadius: '4px',
+                alignSelf: 'flex-start',
+                maxWidth: '85%',
+                position: 'relative',
+                marginBottom: '8px'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  top: '0',
+                  left: '-8px',
+                  width: '0',
+                  height: '0',
+                  borderTop: '8px solid transparent',
+                  borderBottom: '8px solid transparent',
+                  borderRight: '8px solid #f0f4ff'
+                }} />
+                {answer}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

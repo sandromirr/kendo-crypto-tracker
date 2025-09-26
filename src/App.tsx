@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import HomePage from './pages/HomePage'
 import PortfolioPage from './pages/PortfolioPage'
-import CoinDetailsPage from './pages/CoinDetailsPage'
 import CoinListPage from './pages/CoinListPage'
 import SettingsPage from './pages/SettingsPage'
 import EducationPage from './pages/EducationPage'
@@ -23,7 +22,6 @@ const AppContent: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/coins" element={<CoinListPage />} />
-        <Route path="/coin/:id" element={<CoinDetailsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/education" element={<EducationPage />} />
         <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
