@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Chart, ChartSeries, ChartSeriesItem, ChartCategoryAxis, ChartCategoryAxisItem, ChartValueAxis, ChartValueAxisItem, ChartTitle } from '@progress/kendo-react-charts';
-import { Card, CardTitle, CardBody, CardSubtitle, CardHeader } from '@progress/kendo-react-layout';
+import { Card, CardTitle, CardBody, CardHeader } from '@progress/kendo-react-layout';
+import { Button } from '@progress/kendo-react-buttons';
 import { Skeleton } from '@progress/kendo-react-indicators';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
+import { Dialog } from '@progress/kendo-react-dialogs';
+import { Form, Field, FormElement, FieldWrapper } from '@progress/kendo-react-form';
+import { Input, NumericTextBox } from '@progress/kendo-react-inputs';
+import { DropDownList } from '@progress/kendo-react-dropdowns';
 import Header from '../components/Header';
 import '../styles/PortfolioPage.css';
 
@@ -32,11 +37,44 @@ interface PortfolioData {
   coins: Coin[];
 }
 
+interface InvestmentFormValues {
+  coinId: string;
+  amount: number;
+  price: number;
+  date: string;
+  notes: string;
+}
+
 const PortfolioPage: React.FC = () => {
   const [data, setData] = useState<PortfolioData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
+  const [showAddInvestment, setShowAddInvestment] = useState<boolean>(false);
+  const [selectedCoin, setSelectedCoin] = useState<any>(null);
+  
+  const availableCoins = [
+    { id: 'bitcoin', name: 'Bitcoin', symbol: 'BTC' },
+    { id: 'ethereum', name: 'Ethereum', symbol: 'ETH' },
+    { id: 'tether', name: 'Tether', symbol: 'USDT' },
+    { id: 'bnb', name: 'BNB', symbol: 'BNB' },
+    { id: 'solana', name: 'Solana', symbol: 'SOL' },
+    { id: 'xrp', name: 'XRP', symbol: 'XRP' },
+    { id: 'cardano', name: 'Cardano', symbol: 'ADA' },
+    { id: 'avalanche', name: 'Avalanche', symbol: 'AVAX' },
+    { id: 'polkadot', name: 'Polkadot', symbol: 'DOT' },
+    { id: 'polygon', name: 'Polygon', symbol: 'MATIC' },
+    { id: 'chainlink', name: 'Chainlink', symbol: 'LINK' },
+    { id: 'dogecoin', name: 'Dogecoin', symbol: 'DOGE' },
+    { id: 'litecoin', name: 'Litecoin', symbol: 'LTC' },
+    { id: 'bitcoin-cash', name: 'Bitcoin Cash', symbol: 'BCH' },
+    { id: 'stellar', name: 'Stellar', symbol: 'XLM' },
+    { id: 'uniswap', name: 'Uniswap', symbol: 'UNI' },
+    { id: 'ethereum-classic', name: 'Ethereum Classic', symbol: 'ETC' },
+    { id: 'monero', name: 'Monero', symbol: 'XMR' },
+    { id: 'eos', name: 'EOS', symbol: 'EOS' },
+    { id: 'aave', name: 'Aave', symbol: 'AAVE' }
+  ];
 
   useEffect(() => {
     // Simulate API call to fetch portfolio data
@@ -128,6 +166,24 @@ const PortfolioPage: React.FC = () => {
     setPage(newPage);
   };
 
+  const handleAddInvestment = (values: { [name: string]: any }) => {
+    const investment: InvestmentFormValues = {
+      coinId: values.coinId as string,
+      amount: parseFloat(values.amount) || 0,
+      price: parseFloat(values.price) || 0,
+      date: values.date as string,
+      notes: values.notes as string
+    };
+    
+    console.log('Adding investment:', investment);
+    setSelectedCoin(null);
+    setShowAddInvestment(false);
+    
+    // Here you would typically make an API call to save the investment
+    // For now, we'll just show an alert
+    alert(`Added investment: ${values.amount} ${selectedCoin?.name} at $${values.price} each`);
+  };
+
   const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPage(1);
     setPageSize(Number(e.target.value));
@@ -151,12 +207,173 @@ const PortfolioPage: React.FC = () => {
     );
   }
 
+  const renderInvestmentForm = (
+    <Dialog
+      title={
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>Add New Investment</span>
+          <Button 
+            icon="x" 
+            fillMode="flat" 
+            onClick={() => {
+              setShowAddInvestment(false);
+              setSelectedCoin(null);
+            }}
+            style={{ color: 'var(--text-secondary)' }}
+          />
+        </div>
+      }
+      onClose={() => {
+        setShowAddInvestment(false);
+        setSelectedCoin(null);
+      }}
+      width={450}
+      style={{ borderRadius: '12px', overflow: 'hidden' }}
+    >
+      <Form
+        onSubmit={handleAddInvestment}
+        render={(formRenderProps) => (
+          <FormElement style={{ maxWidth: '100%' }}>
+            <FieldWrapper>
+              <div className="k-form-field" style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--text-primary)' }}>Cryptocurrency</label>
+                <Field
+                  name="coinId"
+                  component={DropDownList}
+                  data={availableCoins}
+                  dataItemKey="id"
+                  textField="name"
+                  value={selectedCoin}
+                  onChange={(e: any) => setSelectedCoin(e.value)}
+                  required={true}
+                  placeholder="Select a cryptocurrency..."
+                  style={{ width: '100%', borderRadius: '6px', borderColor: 'var(--border-color)' }}
+                  filterable={true}
+                  clearButton={true}
+                  itemRender={(li: any, itemProps: any) => {
+                    const item = itemProps.dataItem;
+                    const itemChildren = (
+                      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                        <span>{item.name}</span>
+                        <span style={{ color: 'var(--text-secondary)', fontSize: '0.9em' }}>{item.symbol}</span>
+                      </div>
+                    );
+                    return React.cloneElement(li, li.props, itemChildren);
+                  }}
+                />
+              </div>
+              <div className="k-form-field" style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--text-primary)' }}>Amount</label>
+                <Field
+                  name="amount"
+                  component={NumericTextBox}
+                  required={true}
+                  min={0.00000001}
+                  format="n8"
+                  spinners={false}
+                  style={{ width: '100%', borderRadius: '6px', borderColor: 'var(--border-color)' }}
+                  placeholder="0.00000000"
+                />
+              </div>
+              <div className="k-form-field" style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--text-primary)' }}>Price per Coin (USD)</label>
+                <Field
+                  name="price"
+                  component={NumericTextBox}
+                  required={true}
+                  min={0.00000001}
+                  format="n2"
+                  spinners={false}
+                  style={{ width: '100%', borderRadius: '6px', borderColor: 'var(--border-color)' }}
+                  placeholder="0.00"
+                />
+              </div>
+              <div className="k-form-field" style={{ marginBottom: '1.5rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--text-primary)' }}>Date</label>
+                <Field
+                  name="date"
+                  component={Input}
+                  type="date"
+                  required={true}
+                  defaultValue={new Date().toISOString().split('T')[0]}
+                  style={{ width: '100%', borderRadius: '6px', borderColor: 'var(--border-color)', padding: '0.5rem' }}
+                />
+              </div>
+              <div className="k-form-field" style={{ marginBottom: '1.5rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500, color: 'var(--text-primary)' }}>Notes (Optional)</label>
+                <Field
+                  name="notes"
+                  component={Input}
+                  textArea={true}
+                  style={{ width: '100%', minHeight: '80px', borderRadius: '6px', borderColor: 'var(--border-color)', padding: '0.5rem' }}
+                  placeholder="Add any additional notes about this investment..."
+                />
+              </div>
+            </FieldWrapper>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
+              <Button
+                onClick={() => {
+                  setShowAddInvestment(false);
+                  setSelectedCoin(null);
+                }}
+                style={{ 
+                  padding: '0.5rem 1.25rem',
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: 'transparent',
+                  color: 'var(--text-primary)',
+                  borderRadius: '6px'
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                themeColor="primary"
+                disabled={!formRenderProps.allowSubmit || !selectedCoin}
+                style={{ 
+                  padding: '0.5rem 1.5rem',
+                  borderRadius: '6px',
+                  fontWeight: 500
+                }}
+              >
+                Add Investment
+              </Button>
+            </div>
+          </FormElement>
+        )}
+      />
+    </Dialog>
+  );
+
   return (
     <div className="portfolio-container">
       <Header />
+      {showAddInvestment && renderInvestmentForm}
       <div className="portfolio-header">
         <h1>Portfolio Overview</h1>
         <p>Track your cryptocurrency investments and performance in real-time</p>
+      </div>
+
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '1.5rem',
+        gap: '1rem',
+        flexWrap: 'wrap'
+      }}>
+        <h1 style={{
+          fontSize: '1.75rem',
+          fontWeight: 600,
+          margin: 0,
+          color: 'var(--text-primary)'
+        }}>Portfolio Overview</h1>
+        <Button
+          themeColor="primary"
+          onClick={() => setShowAddInvestment(true)}
+        >
+          Add Investment
+        </Button>
       </div>
 
       {/* Portfolio Summary */}

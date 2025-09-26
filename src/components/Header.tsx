@@ -9,9 +9,18 @@ const Header: React.FC = () => {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path || 
     (path !== '/' && location.pathname.startsWith(path));
-  return (
+ 
+    return (
     <AppBar className="app-bar">
-      <Link to="/" className="app-title">
+      <Link 
+        to="/" 
+        className="app-title"
+        style={{
+          textDecoration: 'none',
+          cursor: 'pointer',
+          color: 'inherit'
+        }}
+      >
         Crypto Tracker
       </Link>
       <nav>

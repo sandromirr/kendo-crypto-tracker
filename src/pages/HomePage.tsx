@@ -34,7 +34,12 @@ const HomePage: React.FC = () => {
   return (
     <div className="home-container">
       {/* Hero Section */}
-      <section className="hero-section">
+      <section className="hero-section" style={{
+        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+        padding: '4rem 0',
+        margin: '0rem 0',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+      }}>
         <div 
           className="hero-content" 
           style={{
