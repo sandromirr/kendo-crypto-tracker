@@ -1,0 +1,267 @@
+/* Main container */
+.coin-list-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Filter section */
+.filter-section {
+  margin-bottom: 24px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 200px 200px auto;
+  gap: 16px;
+  align-items: end;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Search input */
+.search-container {
+  position: relative;
+}
+
+.search-container .k-icon {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  color: #666;
+  z-index: 1;
+}
+
+.search-input {
+  padding-left: 36px !important;
+}
+
+.filter-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Coins grid card */
+.coins-grid-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Coin row styles */
+.coin-name-cell {
+  padding: 8px !important;
+}
+
+.coin-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.coin-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #f5f5f5;
+}
+
+.coin-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.coin-symbol {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+/* Price change indicators */
+.positive-change {
+  color: #10b981;
+  font-weight: 500;
+}
+
+.negative-change {
+  color: #ef4444;
+  font-weight: 500;
+}
+
+/* Last updated text */
+.last-updated {
+  font-size: 12px;
+  color: #666;
+  margin-left: 12px;
+  font-weight: normal;
+}
+
+/* Coin details dialog */
+.coin-details {
+  padding: 16px 0;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.detail-value {
+  font-weight: 500;
+}
+
+.dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dialog-coin-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+}
+
+.dialog-subtitle {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+/* Loading and error states */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  text-align: center;
+}
+
+.loading-container p {
+  margin-top: 16px;
+  color: #666;
+}
+
+.error-container h2 {
+  color: #ef4444;
+  margin-bottom: 12px;
+}
+
+.error-container p {
+  margin-bottom: 16px;
+  color: #666;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .filter-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .coin-list-container {
+    padding: 12px;
+  }
+  
+  .k-grid {
+    font-size: 13px;
+  }
+  
+  .dialog-actions {
+    flex-direction: column;
+  }
+  
+  .dialog-actions .k-button {
+    width: 100%;
+  }
+}
+
+/* Refresh button */
+.refresh-button {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 4px;
+}
+
+/* Notification */
+.k-notification-container {
+  z-index: 10003;
+}
+
+/* Grid header styles */
+.k-grid-header {
+  background-color: #f8f9fa;
+}
+
+.k-grid-header th {
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #495057;
+}
+
+/* Grid row hover effect */
+.k-grid tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.04);
+  cursor: pointer;
+}
+
+/* Details button */
+.details-button {
+  min-width: 80px;
+  text-align: center;
+}
+
+/* Responsive table cells */
+@media (max-width: 576px) {
+  .k-grid td, 
+  .k-grid th {
+    padding: 8px 4px;
+  }
+  
+  .coin-name {
+    font-size: 13px;
+  }
+  
+  .coin-symbol {
+    font-size: 11px;
+  }
+}

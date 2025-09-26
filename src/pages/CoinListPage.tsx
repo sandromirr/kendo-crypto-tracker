@@ -6,11 +6,9 @@ import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { Input } from '@progress/kendo-react-inputs';
 import { Card, CardHeader, CardTitle, CardBody } from '@progress/kendo-react-layout';
 import { Dialog } from '@progress/kendo-react-dialogs';
-import '../styles/CoinListPage.css';
-// CryptoIcon import removed as we're using direct image URLs
-import { Link } from 'react-router-dom';
 import { fetchMarketCoins, type CoinListItem } from '../services/coingecko';
 import MarketOverview from '../components/MarketOverview';
+import Header from '../components/Header';
 import { formatCurrency, formatPercentage } from '../utils/numberUtils';
 
 interface Coin extends CoinListItem {}
@@ -78,12 +76,8 @@ const CoinListPage: React.FC = () => {
 
   return (
     <div className="coin-list-container">
-      {/* Header Section */}
-      <div className="coin-list-header">
-        <h1>Cryptocurrency Prices</h1>
-        <p>Real-time prices, charts, and market data</p>
-      </div>
-
+      <Header />
+      
       {/* Market Overview Cards */}
       <MarketOverview />
 
@@ -300,14 +294,42 @@ const CoinListPage: React.FC = () => {
         >
           <div className="coin-details">
             <div className="coin-header">
-              <div className="coin-icon">
+              <div className="coin-icon" style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                backgroundColor: '#f0f0f0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                flexShrink: 0
+              }}>
                 <img 
-                  src={`https://cryptologos.cc/logos/${selectedCoin.symbol.toLowerCase()}-${selectedCoin.name.toLowerCase().replace(/[^a-z0-9]/g, '')}-logo.png`} 
+                  src={`https://cryptoicons.org/api/icon/${selectedCoin.symbol.toLowerCase()}/200`}
                   alt={selectedCoin.symbol}
-                  style={{ width: '48px', height: '48px' }}
+                  style={{ 
+                    width: '100%', 
+                    height: '100%',
+                    objectFit: 'contain',
+                    display: 'block'
+                  }}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
+                    const fallbackUrl = `https://cryptologos.cc/logos/${selectedCoin.symbol.toLowerCase()}-${selectedCoin.name.toLowerCase().replace(/[^a-z0-9]/g, '')}-logo.png`;
+                    
+                    if (target.src !== fallbackUrl) {
+                      target.src = fallbackUrl;
+                    } else {
+                      // If both image sources fail, show the first letter of the symbol
+                      target.style.display = 'none';
+                      const fallbackText = document.createElement('div');
+                      fallbackText.textContent = selectedCoin.symbol[0].toUpperCase();
+                      fallbackText.style.fontSize = '24px';
+                      fallbackText.style.fontWeight = 'bold';
+                      fallbackText.style.color = '#666';
+                      target.parentNode?.appendChild(fallbackText);
+                    }
                   }}
                 />
               </div>

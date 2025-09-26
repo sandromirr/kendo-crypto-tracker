@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Chart, ChartSeries, ChartSeriesItem, ChartCategoryAxis, ChartCategoryAxisItem, ChartValueAxis, ChartValueAxisItem, ChartTitle } from '@progress/kendo-react-charts';
-import { Card, CardTitle, CardBody, CardSubtitle } from '@progress/kendo-react-layout';
+import { Card, CardTitle, CardBody, CardSubtitle, CardHeader } from '@progress/kendo-react-layout';
 import { Skeleton } from '@progress/kendo-react-indicators';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
+import Header from '../components/Header';
 import '../styles/PortfolioPage.css';
 
 type GridCellProps = {
@@ -134,14 +135,17 @@ const PortfolioPage: React.FC = () => {
 
   if (loading || !data) {
     return (
-      <div className="portfolio-container">
-        <Skeleton shape="text" style={{ width: '200px', height: '32px' }} />
-        <Skeleton shape="text" style={{ width: '300px', height: '24px', marginTop: '8px' }} />
-        <div style={{ marginTop: '1.5rem' }}>
-          <Skeleton shape="rectangle" style={{ height: '300px', width: '100%' }} />
-        </div>
-        <div style={{ marginTop: '1.5rem' }}>
-          <Skeleton shape="rectangle" style={{ height: '400px', width: '100%' }} />
+      <div className="coin-list-container">
+        <Header />
+        <div style={{ padding: '1rem' }}>
+          <Skeleton shape="text" style={{ width: '200px', height: '32px' }} />
+          <Skeleton shape="text" style={{ width: '300px', height: '24px', marginTop: '8px' }} />
+          <div style={{ marginTop: '1.5rem' }}>
+            <Skeleton shape="rectangle" style={{ height: '300px', width: '100%' }} />
+          </div>
+          <div style={{ marginTop: '1.5rem' }}>
+            <Skeleton shape="rectangle" style={{ height: '400px', width: '100%' }} />
+          </div>
         </div>
       </div>
     );
@@ -149,17 +153,20 @@ const PortfolioPage: React.FC = () => {
 
   return (
     <div className="portfolio-container">
+      <Header />
       <div className="portfolio-header">
-        <h1 className="portfolio-title">Portfolio Overview</h1>
-        <p className="portfolio-subtitle">Track your cryptocurrency investments and performance</p>
+        <h1>Portfolio Overview</h1>
+        <p>Track your cryptocurrency investments and performance in real-time</p>
       </div>
 
       {/* Portfolio Summary */}
       <div className="summary-grid">
         <Card className="card">
+          <CardHeader>
+            <CardTitle>Total Value</CardTitle>
+          </CardHeader>
           <CardBody>
-            <CardSubtitle>Total Value</CardSubtitle>
-            <CardTitle className="text-2xl font-bold">{formatCurrency(data.total_value)}</CardTitle>
+            <div className="text-3xl font-bold">{formatCurrency(data.total_value)}</div>
           </CardBody>
         </Card>
         <Card className="card">
