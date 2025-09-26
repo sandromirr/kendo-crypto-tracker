@@ -5,8 +5,9 @@ import { Button } from '@progress/kendo-react-buttons';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { Input } from '@progress/kendo-react-inputs';
 import { Card, CardHeader, CardTitle, CardBody } from '@progress/kendo-react-layout';
+import { Dialog } from '@progress/kendo-react-dialogs';
 import '../styles/CoinListPage.css';
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
+// CryptoIcon import removed as we're using direct image URLs
 import { Link } from 'react-router-dom';
 import { fetchMarketCoins, type CoinListItem } from '../services/coingecko';
 import MarketOverview from '../components/MarketOverview';
@@ -25,6 +26,8 @@ const CoinListPage: React.FC = () => {
   
   // Live data state
   const [coins, setCoins] = useState<GridCoin[]>([]);
+  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
+  const [showDetails, setShowDetails] = useState<boolean>(false);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [vsCurrency, setVsCurrency] = useState<string>('usd');
   const [loading, setLoading] = useState<boolean>(false);
@@ -61,6 +64,16 @@ const CoinListPage: React.FC = () => {
       skip: event.page.skip,
       take: event.page.take
     }));
+  };
+
+  const handleViewDetails = (coin: Coin) => {
+    setSelectedCoin(coin);
+    setShowDetails(true);
+  };
+
+  const closeDialog = () => {
+    setShowDetails(false);
+    setSelectedCoin(null);
   };
 
   return (
@@ -114,70 +127,78 @@ const CoinListPage: React.FC = () => {
           <CardTitle>Top Cryptocurrencies</CardTitle>
         </CardHeader>
         <CardBody>
-          {loading && <div style={{ padding: '8px 0' }}>Loading coins...</div>}
           {error && <div style={{ padding: '8px 0', color: 'var(--kendo-color-danger, #dc3545)' }}>{error}</div>}
           <div className="grid-wrapper">
             <Grid
               data={coins}
-              style={{ height: '600px', width: '100%' }}
-              className="kendo-grid"
-              sortable={true}
-              resizable={true}
-              reorderable={true}
-              pageable={{
-                buttonCount: 5,
-                pageSizes: [10, 25, 50],
-                pageSizeValue: page.take,
-                type: 'input',
-                info: true,
-                previousNext: true
-              }}
               skip={page.skip}
               take={page.take}
               total={totalItems}
+              pageable={{
+                buttonCount: 5,
+                pageSizes: [10, 20, 50],
+                pageSizeValue: page.take
+              }}
               onPageChange={pageChange}
-              dataItemKey="id"
-              scrollable="scrollable"
+              style={{ height: '600px' }}
             >
+              {loading && <div className="k-loading-mask" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
+                <span className="k-loading-text">Loading</span>
+                <div className="k-loading-image"></div>
+                <div className="k-loading-color"></div>
+              </div>}
               <GridColumn 
-                field="name" 
-                title="Name" 
-                width="25%"
-                cells={{
-                  data: (props: any) => {
-                    const dataItem = props.dataItem;
-                    return (
-                      <td className="name-cell">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          {typeof dataItem.symbol === 'string' && dataItem.symbol ? (
-                            <CryptoIcon
-                              ledgerId={dataItem.name.toLowerCase()}
-                              ticker={dataItem.symbol}
-                              size="24px"
-                            />
-                          ) : (
-                            <span style={{ width: 24, height: 24, display: 'inline-block' }} />
-                          )}
-                          <div className="name-symbol-container">
-                            <div className="coin-name">{dataItem.name}</div>
-                            <div className="coin-symbol">{dataItem.symbol}</div>
-                          </div>
-                        </div>
-                      </td>
-                    );
-                  }
-                }}
-              />
-              <GridColumn 
-                field="price" 
-                title="Price" 
-                width="15%"
+                field="symbol" 
+                title="Symbol" 
+                width="150px"
+                headerClassName="text-center"
                 cells={{
                   data: (props: { dataItem: GridCoin }) => {
-                    const price = props.dataItem.price;
+                    const coinId = props.dataItem.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+                    const imageUrl = `https://cryptoicons.org/api/icon/${props.dataItem.symbol.toLowerCase()}/50`;
+                    const fallbackUrl = `https://cryptologos.cc/logos/${props.dataItem.symbol.toLowerCase()}-${coinId}-logo.png`;
+                    
                     return (
-                      <td>
-                        {formatCurrency(price, vsCurrency, price < 0.01 ? 6 : 2)}
+                      <td className="text-center">
+                        <div className="symbol-cell" style={{ display: 'flex', alignItems: 'center' }}>
+                          <div style={{
+                            width: '24px',
+                            height: '24px',
+                            marginRight: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: '50%',
+                            overflow: 'hidden',
+                            backgroundColor: '#f0f0f0'
+                          }}>
+                            <img 
+                              src={imageUrl}
+                              alt={props.dataItem.symbol}
+                              style={{ 
+                                width: '100%', 
+                                height: '100%',
+                                objectFit: 'contain',
+                                display: 'block'
+                              }}
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                if (target.src !== fallbackUrl) {
+                                  target.src = fallbackUrl;
+                                } else {
+                                  target.style.display = 'none';
+                                  // Show first letter as fallback
+                                  const fallbackText = document.createElement('div');
+                                  fallbackText.textContent = props.dataItem.symbol[0];
+                                  fallbackText.style.fontWeight = 'bold';
+                                  fallbackText.style.color = '#666';
+                                  target.parentNode?.appendChild(fallbackText);
+                                }
+                              }}
+                            />
+                          </div>
+                          <span style={{ fontWeight: 500 }}>{props.dataItem.symbol}</span>
+                        </div>
                       </td>
                     );
                   }
@@ -186,13 +207,12 @@ const CoinListPage: React.FC = () => {
               <GridColumn 
                 field="change24h" 
                 title="24h %"
-                width="12%"
                 cells={{
                   data: (props: { dataItem: GridCoin }) => {
                     const value = props.dataItem.change24h;
                     return (
                       <td className={`change-cell ${value >= 0 ? 'positive-change' : 'negative-change'}`}>
-                        {formatPercentage(value, Math.abs(value) < 0.01 ? 4 : 2)}
+                        {formatPercentage(value / 100, Math.abs(value) < 0.01 ? 4 : 2)}
                       </td>
                     );
                   }
@@ -241,14 +261,26 @@ const CoinListPage: React.FC = () => {
                 width="10%"
                 cells={{
                   data: (props: any) => {
-                    const dataItem = props.dataItem as Coin;
                     return (
                       <td className="action-cell">
-                        <Link to={`/coin/${encodeURIComponent(dataItem.symbol)}`}>
-                          <Button themeColor="primary" size="small" className="view-details-btn">
-                            View Details
-                          </Button>
-                        </Link>
+                        <Button
+                          icon="eye"
+                          fillMode="solid"
+                          themeColor="primary"
+                          className="view-details-button"
+                          style={{
+                            backgroundColor: 'var(--kendo-color-primary, #3f51b5)',
+                            color: 'white',
+                            border: 'none',
+                            padding: '6px 12px',
+                            borderRadius: '4px',
+                            transition: 'all 0.2s ease',
+                            fontWeight: 500
+                          }}
+                          onClick={() => handleViewDetails(props.dataItem as Coin)}
+                        >
+                          View
+                        </Button>
                       </td>
                     );
                   }
@@ -258,6 +290,68 @@ const CoinListPage: React.FC = () => {
           </div>
         </CardBody>
       </Card>
+
+      {/* Coin Details Dialog */}
+      {showDetails && selectedCoin && (
+        <Dialog
+          title={`${selectedCoin.name} (${selectedCoin.symbol.toUpperCase()})`}
+          onClose={closeDialog}
+          width={600}
+        >
+          <div className="coin-details">
+            <div className="coin-header">
+              <div className="coin-icon">
+                <img 
+                  src={`https://cryptologos.cc/logos/${selectedCoin.symbol.toLowerCase()}-${selectedCoin.name.toLowerCase().replace(/[^a-z0-9]/g, '')}-logo.png`} 
+                  alt={selectedCoin.symbol}
+                  style={{ width: '48px', height: '48px' }}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+              <div className="coin-info">
+                <h2>{selectedCoin.name}</h2>
+                <p className="symbol">{selectedCoin.symbol.toUpperCase()}</p>
+              </div>
+              <div className="coin-price">
+                <h3>{formatCurrency(selectedCoin.price, vsCurrency)}</h3>
+                <p className={selectedCoin.change24h >= 0 ? 'positive' : 'negative'}>
+                  {formatPercentage(selectedCoin.change24h / 100)}
+                </p>
+              </div>
+            </div>
+            <div className="coin-stats">
+              <div className="stat-item">
+                <span className="stat-label">Market Cap</span>
+                <span className="stat-value">{formatCurrency(selectedCoin.marketCap, vsCurrency)}</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">24h Trading Volume</span>
+                <span className="stat-value">{formatCurrency(selectedCoin.volume24h, vsCurrency)}</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">Circulating Supply</span>
+                <span className="stat-value">
+                  {/* Circulating supply not available in the API response */}
+                  N/A
+                </span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">All Time High</span>
+                <span className="stat-value">
+                  {/* ATH data not available in the API response */}
+                  N/A
+                </span>
+              </div>
+            </div>
+            <div className="coin-actions">
+              <Button onClick={closeDialog} themeColor="primary">Close</Button>
+            </div>
+          </div>
+        </Dialog>
+      )}
     </div>
   );
 };
