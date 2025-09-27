@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AppBar } from '@progress/kendo-react-layout';
 import { SvgIcon } from '@progress/kendo-react-common';
-import { menuIcon, homeIcon, gridIcon } from '@progress/kendo-svg-icons';
+import { menuIcon, homeIcon, gridIcon, bookIcon } from '@progress/kendo-svg-icons';
 import '../styles/Header.css';
 
 const Header: React.FC = () => {
@@ -41,6 +41,15 @@ const Header: React.FC = () => {
             >
               <SvgIcon icon={gridIcon} />
               <span>Portfolio</span>
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/education" 
+              className={`k-button k-button-md k-rounded-md k-button-flat ${isActive('/education') ? 'k-button-selected' : ''}`}
+            >
+              <SvgIcon icon={bookIcon} />
+              <span>Education</span>
             </Link>
           </li>
           <li>

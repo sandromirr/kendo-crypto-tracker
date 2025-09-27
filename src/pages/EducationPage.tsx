@@ -1,152 +1,147 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Card, CardHeader, CardBody, CardActions } from '@progress/kendo-react-layout';
+import React, { useState } from 'react';
+import { Card, CardBody, CardTitle, CardSubtitle, CardActions } from '@progress/kendo-react-layout';
 import { Button } from '@progress/kendo-react-buttons';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
-import { Dialog } from '@progress/kendo-react-dialogs';
-import { type Course } from '../models/course';
-import { levelOptions, durationOptions } from '../models/filter-options';
+import Header from '../components/Header';
 import courses from '../data/courses-data';
-import '../styles/EducationPage.css';
+import './EducationPage.styles.css';
+
+const levelOptions = [
+  { text: 'All Levels', value: 'all' },
+  { text: 'Beginner', value: 'Beginner' },
+  { text: 'Intermediate', value: 'Intermediate' },
+  { text: 'Advanced', value: 'Advanced' },
+];
+
+const sortOptions = [
+  { text: 'Recommended', value: 'recommended' },
+  { text: 'Level: Easy to Hard', value: 'level-asc' },
+  { text: 'Level: Hard to Easy', value: 'level-desc' },
+  { text: 'Duration: Shortest First', value: 'duration-asc' },
+  { text: 'Duration: Longest First', value: 'duration-desc' },
+];
+
 
 const EducationPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [selectedLevel, setSelectedLevel] = useState('all');
-  const [selectedDuration, setSelectedDuration] = useState('all');
-  
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [showEnrollDialog, setShowEnrollDialog] = useState<boolean>(false);
+  const [levelFilter, setLevelFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('recommended');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const handleEnrollClick = (course: Course) => {
-    setSelectedCourse(course);
-    setShowEnrollDialog(true);
-  };
-
-  const closeEnrollDialog = () => {
-    setShowEnrollDialog(false);
-    setSelectedCourse(null);
-  };
-
-  const filteredCourses = courses.filter(course => {
-    const matchesLevel = selectedLevel === 'all' || course.level === selectedLevel;
+  const filteredCourses = React.useMemo(() => {
+    let result = [...courses];
     
-    let matchesDuration = true;
-    if (selectedDuration !== 'all') {
-      const weeks = parseInt(course.duration);
-      if (selectedDuration === 'short') {
-        matchesDuration = weeks <= 4;
-      } else if (selectedDuration === 'medium') {
-        matchesDuration = weeks > 4 && weeks <= 8;
-      } else if (selectedDuration === 'long') {
-        matchesDuration = weeks > 8;
-      }
+    // Apply level filter
+    if (levelFilter !== 'all') {
+      result = result.filter(course => course.level === levelFilter);
     }
     
-    return matchesLevel && matchesDuration;
-  });
-
-  function handleDetails(course: Course): void {
-    navigate(`/courses/${course.id}`);
-  }
+    // Apply search
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(course => 
+        course.title.toLowerCase().includes(term) || 
+        course.description.toLowerCase().includes(term) ||
+        course.lessons.some((lesson: string) => lesson.toLowerCase().includes(term))
+      );
+    }
+    
+    // Apply sorting
+    switch (sortBy) {
+      case 'level-asc':
+        const levelOrder = { 'Beginner': 1, 'Intermediate': 2, 'Advanced': 3 };
+        return [...result].sort((a, b) => levelOrder[a.level as keyof typeof levelOrder] - levelOrder[b.level as keyof typeof levelOrder]);
+      case 'level-desc':
+        const levelOrderDesc = { 'Beginner': 1, 'Intermediate': 2, 'Advanced': 3 };
+        return [...result].sort((a, b) => levelOrderDesc[b.level as keyof typeof levelOrderDesc] - levelOrderDesc[a.level as keyof typeof levelOrderDesc]);
+      case 'duration-asc':
+        return [...result].sort((a, b) => parseInt(a.duration) - parseInt(b.duration));
+      case 'duration-desc':
+        return [...result].sort((a, b) => parseInt(b.duration) - parseInt(a.duration));
+      default:
+        return result;
+    }
+  }, [levelFilter, sortBy, searchTerm]);
 
   return (
     <div className="education-page">
-      <div className="page-header">
-        <div className="header-content">
-          <h1>Cryptocurrency Education Hub</h1>
-          <p className="subtitle">Expand your knowledge with our comprehensive courses</p>
+      <Header />
+      <div className="container">
+        <div className="education-header">
+          <h1 className="education-title">Crypto Education Center</h1>
+          <p className="education-subtitle">Master blockchain technology and cryptocurrency trading with our expert-led courses</p>
         </div>
-      </div>
-      
-      <div className="filters-container">
-        <div className="filters">
-          <div className="filter-group">
-            <label>Filter by level</label>
+        
+        <div className="filter-section">
+          <input
+            type="text"
+            placeholder="Search courses..."
+            className="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <div className="filter-controls">
             <DropDownList
               data={levelOptions}
               textField="text"
               dataItemKey="value"
-              value={selectedLevel}
-              onChange={(e) => setSelectedLevel(e.value)}
+              value={levelFilter}
+              onChange={(e) => setLevelFilter(e.target.value)}
+              className="level-filter"
             />
-          </div>
-          
-          <div className="filter-group">
-            <label>Filter by duration</label>
             <DropDownList
-              data={durationOptions}
+              data={sortOptions}
               textField="text"
               dataItemKey="value"
-              value={selectedDuration}
-              onChange={(e) => setSelectedDuration(e.value)}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="sort-options"
             />
           </div>
         </div>
-      </div>
-      <div className="courses-grid">
-        {filteredCourses.map((course) => (
-          <Card key={course.id} className="course-card">
-            <CardHeader className="course-header">
-              <div className="course-icon">{course.icon}</div>
-              <div>
-                <div className="course-meta">
-                  <span className="level-badge" data-level={course.level}>{course.level}</span>
-                  <span className="duration">⏱️ {course.duration}</span>
-                </div>
-              </div>
-            </CardHeader>
-            <CardBody>
-              <p className="course-description">{course.description}</p>
-            </CardBody>
-            <CardActions className="card-actions">
-              <Button
-                  themeColor="primary"
-                  onClick={() => handleDetails(course)}
-              >
-                  Details
-                </Button>
-              <Button 
-                themeColor='primary' 
-                onClick={() => handleEnrollClick(course)}
-              >
-                Enroll Now
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
-      </div>
 
-      {showEnrollDialog && selectedCourse && (
-        <Dialog 
-          title={`Enroll in ${selectedCourse.title}`} 
-          onClose={closeEnrollDialog}
-          className="enroll-dialog"
-        >
-          <div className="dialog-content">
-            <p>You are about to enroll in: <strong>{selectedCourse.title}</strong></p>
-            <p>Level: {selectedCourse.level}</p>
-            <p>Duration: {selectedCourse.duration}</p>
-            <p>This course includes:</p>
-            <ul>
-              {selectedCourse.lessons.map((lesson, index) => (
-                <li key={index}>{lesson}</li>
-              ))}
-            </ul>
-            <div className="dialog-actions">
-              <Button onClick={closeEnrollDialog}>Cancel</Button>
-              <Button 
-                themeColor="primary" 
-                onClick={() => {
-                  alert(`Successfully enrolled in ${selectedCourse.title}!`);
-                  closeEnrollDialog();
-                }}
-              >
-                Confirm Enrollment
-              </Button>
-            </div>
+        <div className="course-grid">
+          {filteredCourses.map((course) => (
+            <Card key={course.id} className="course-card">
+              <div className="course-icon">
+                {course.icon}
+              </div>
+              <CardBody className="course-body">
+                <div className="course-header">
+                  <CardTitle className="course-title">{course.title}</CardTitle>
+                </div>
+                <CardSubtitle className="course-subtitle">
+                  {course.duration} • {course.lessons.length} lessons
+                </CardSubtitle>
+                <p className="course-description">{course.description}</p>
+                <div className="lessons-section">
+                  <h4>What you'll learn:</h4>
+                  <ul className="lessons-list">
+                    {course.lessons.slice(0, 3).map((lesson: string, idx: number) => (
+                      <li key={idx}>{lesson}</li>
+                    ))}
+                    {course.lessons.length > 3 && (
+                      <li className="more-lessons">+{course.lessons.length - 3} more</li>
+                    )}
+                  </ul>
+                </div>
+              </CardBody>
+              <CardActions className="course-actions">
+                <Button themeColor="primary" className="enroll-button">
+                  Enroll Now
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
+        </div>
+        
+        {filteredCourses.length === 0 && (
+          <div className="empty-state">
+            <div className="empty-state-icon">🔍</div>
+            <h3 className="empty-state-title">No courses found</h3>
+            <p className="empty-state-description">Try adjusting your search or filter criteria</p>
           </div>
-        </Dialog>
-      )}
+        )}
+      </div>
     </div>
   );
 };

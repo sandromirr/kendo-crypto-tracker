@@ -349,32 +349,7 @@ const PortfolioPage: React.FC = () => {
     <div className="portfolio-container">
       <Header />
       {showAddInvestment && renderInvestmentForm}
-      <div className="portfolio-header">
-        <h1>Portfolio Overview</h1>
-        <p>Track your cryptocurrency investments and performance in real-time</p>
-      </div>
 
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '1.5rem',
-        gap: '1rem',
-        flexWrap: 'wrap'
-      }}>
-        <h1 style={{
-          fontSize: '1.75rem',
-          fontWeight: 600,
-          margin: 0,
-          color: 'var(--text-primary)'
-        }}>Portfolio Overview</h1>
-        <Button
-          themeColor="primary"
-          onClick={() => setShowAddInvestment(true)}
-        >
-          Add Investment
-        </Button>
-      </div>
 
       {/* Portfolio Summary */}
       <div style={{
@@ -531,7 +506,20 @@ const PortfolioPage: React.FC = () => {
       {/* Portfolio Holdings */}
       <Card className="card">
         <CardBody>
-          <h2 className="text-xl font-semibold mb-4">Your Holdings</h2>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '1rem'
+          }}>
+            <h2 className="text-xl font-semibold">Your Holdings</h2>
+            <Button
+              themeColor="primary"
+              onClick={() => setShowAddInvestment(true)}
+            >
+              Add Investment
+            </Button>
+          </div>
           <div className="grid-container">
             <Grid
               data={data.coins.slice((page - 1) * pageSize, page * pageSize)}
