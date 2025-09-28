@@ -1,7 +1,4 @@
-export interface FAQItem {
-  q: string;
-  a: string;
-}
+import type { FAQItem } from '../models/faq-item';
 
 export const faqs: FAQItem[] = [
   {

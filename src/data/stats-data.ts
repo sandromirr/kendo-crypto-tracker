@@ -1,8 +1,4 @@
-export interface StatItem {
-  label: string;
-  value: string;
-  icon: string;
-}
+import type { StatItem } from '../models/stat-item';
 
 export const stats: StatItem[] = [
   { 

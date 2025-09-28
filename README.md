@@ -1,69 +1,110 @@
-# React + TypeScript + Vite
+# Kendo Crypto Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern cryptocurrency tracking application built with React, TypeScript, and KendoReact. Track your favorite cryptocurrencies, manage your portfolio, and stay updated with the latest market trends.
 
-Currently, two official plugins are available:
+![Kendo Crypto Tracker Screenshot](./public/screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 📊 Real-time cryptocurrency price tracking
+- 💼 Portfolio management
+- 📈 Interactive charts and market data
+- 🔍 Search and filter cryptocurrencies
+- 📱 Responsive design for all devices
+- 🎨 Modern UI with KendoReact components
+- 🔒 Secure and fast with TypeScript
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Technologies
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Frontend**: React 19
+- **Language**: TypeScript
+- **Build Tool**: Vite
+- **UI Components**: KendoReact
+- **Styling**: Styled Components
+- **Routing**: React Router v7
+- **Icons**: Font Awesome, React Icons, LedgerHQ Crypto Icons
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📦 Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js (v18 or later)
+- npm (v9 or later) or yarn
+
+## 🛠️ Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/kendo-crypto-tracker.git
+   cd kendo-crypto-tracker
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. **Open in browser**
+   The application will be available at `http://localhost:5173`
+
+## 🏗️ Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── data/          # Data files and mock data
+├── models/        # TypeScript type definitions
+├── pages/         # Page components
+│   ├── HomePage.tsx
+│   ├── PortfolioPage.tsx
+│   ├── CoinListPage.tsx
+│   ├── SettingsPage.tsx
+│   ├── EducationPage.tsx
+│   └── NotFoundPage.tsx
+├── services/      # API and service layer
+├── styles/        # Global styles and themes
+└── utils/         # Utility functions
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📜 Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🔧 Environment Variables
+
+Create a `.env` file in the root directory and add the following variables:
+
+```env
+VITE_API_KEY=your_api_key_here
+VITE_API_URL=https://api.coingecko.com/api/v3
 ```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [KendoReact](https://www.telerik.com/kendo-react-ui/) for the amazing UI components
+- [CoinGecko API](https://www.coingecko.com/en/api) for cryptocurrency data
+- [Vite](https://vitejs.dev/) for the excellent development experience

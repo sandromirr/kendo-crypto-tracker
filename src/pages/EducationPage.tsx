@@ -1,38 +1,36 @@
 import React, { useState } from 'react';
 import { Card, CardBody, CardTitle, CardSubtitle, CardActions } from '@progress/kendo-react-layout';
 import { Button } from '@progress/kendo-react-buttons';
-import { DropDownList } from '@progress/kendo-react-dropdowns';
+import { DropDownList, type DropDownListChangeEvent } from '@progress/kendo-react-dropdowns';
 import Header from '../components/Header';
 import courses from '../data/courses-data';
+import { levelOptions, durationOptions } from '../data/filter-options';
+import type { FilterOption } from '../models/filter-option';
 import './EducationPage.styles.css';
 
-const levelOptions = [
-  { text: 'All Levels', value: 'all' },
-  { text: 'Beginner', value: 'Beginner' },
-  { text: 'Intermediate', value: 'Intermediate' },
-  { text: 'Advanced', value: 'Advanced' },
-];
-
-const sortOptions = [
-  { text: 'Recommended', value: 'recommended' },
-  { text: 'Level: Easy to Hard', value: 'level-asc' },
-  { text: 'Level: Hard to Easy', value: 'level-desc' },
-  { text: 'Duration: Shortest First', value: 'duration-asc' },
-  { text: 'Duration: Longest First', value: 'duration-desc' },
-];
-
-
 const EducationPage: React.FC = () => {
-  const [levelFilter, setLevelFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('recommended');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [levelFilter, setLevelFilter] = useState<FilterOption>(levelOptions[0]);
+  const [durationFilter, setDurationFilter] = useState<FilterOption>(durationOptions[0]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const filteredCourses = React.useMemo(() => {
     let result = [...courses];
     
     // Apply level filter
-    if (levelFilter !== 'all') {
-      result = result.filter(course => course.level === levelFilter);
+    if (levelFilter.value !== 'all') {
+      result = result.filter(course => course.level === levelFilter.value);
+    }
+    
+    // Apply duration filter
+    if (durationFilter.value !== 'any') {
+      const [min, max] = durationFilter.value.split('-').map(Number);
+      result = result.filter(course => {
+        const duration = parseInt(course.duration);
+        if (durationFilter.value.endsWith('+')) {
+          return duration >= parseInt(durationFilter.value);
+        }
+        return duration >= min && duration <= max;
+      });
     }
     
     // Apply search
@@ -45,22 +43,8 @@ const EducationPage: React.FC = () => {
       );
     }
     
-    // Apply sorting
-    switch (sortBy) {
-      case 'level-asc':
-        const levelOrder = { 'Beginner': 1, 'Intermediate': 2, 'Advanced': 3 };
-        return [...result].sort((a, b) => levelOrder[a.level as keyof typeof levelOrder] - levelOrder[b.level as keyof typeof levelOrder]);
-      case 'level-desc':
-        const levelOrderDesc = { 'Beginner': 1, 'Intermediate': 2, 'Advanced': 3 };
-        return [...result].sort((a, b) => levelOrderDesc[b.level as keyof typeof levelOrderDesc] - levelOrderDesc[a.level as keyof typeof levelOrderDesc]);
-      case 'duration-asc':
-        return [...result].sort((a, b) => parseInt(a.duration) - parseInt(b.duration));
-      case 'duration-desc':
-        return [...result].sort((a, b) => parseInt(b.duration) - parseInt(a.duration));
-      default:
-        return result;
-    }
-  }, [levelFilter, sortBy, searchTerm]);
+    return result;
+  }, [levelFilter, durationFilter, searchTerm]);
 
   return (
     <div className="education-page">
@@ -85,16 +69,22 @@ const EducationPage: React.FC = () => {
               textField="text"
               dataItemKey="value"
               value={levelFilter}
-              onChange={(e) => setLevelFilter(e.target.value)}
+              onChange={(e: DropDownListChangeEvent) => {
+                const selected = levelOptions.find(opt => opt.value === e.target.value);
+                if (selected) setLevelFilter(selected);
+              }}
               className="level-filter"
             />
             <DropDownList
-              data={sortOptions}
+              data={durationOptions}
               textField="text"
               dataItemKey="value"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="sort-options"
+              value={durationFilter}
+              onChange={(e: DropDownListChangeEvent) => {
+                const selected = durationOptions.find(opt => opt.value === e.target.value);
+                if (selected) setDurationFilter(selected);
+              }}
+              className="duration-filter"
             />
           </div>
         </div>

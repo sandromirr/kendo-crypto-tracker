@@ -1,9 +1,4 @@
-export interface FeatureItem {
-  icon: string;
-  title: string;
-  description: string;
-  color: 'primary' | 'success' | 'warning' | 'info' | 'error';
-}
+import type { FeatureItem } from '../models/feature-item';
 
 export const features: FeatureItem[] = [
   {

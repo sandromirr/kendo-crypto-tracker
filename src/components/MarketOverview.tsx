@@ -1,12 +1,7 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, CardTitle } from '@progress/kendo-react-layout';
-
-interface MarketCardProps {
-  title: string;
-  value: string;
-  change: string;
-  isPositive: boolean;
-}
+import type { MarketCardProps } from '../models/market-card-props';
+import { marketData } from '../data/market-data';
 
 const MarketCard: React.FC<MarketCardProps> = ({ title, value, change, isPositive }) => (
   <Card style={{ height: '100%' }}>
@@ -30,33 +25,6 @@ const MarketCard: React.FC<MarketCardProps> = ({ title, value, change, isPositiv
 );
 
 const MarketOverview: React.FC = () => {
-  const marketData = [
-    {
-      title: 'Total Market Cap',
-      value: '$2.1T',
-      change: '5.2%',
-      isPositive: true,
-    },
-    {
-      title: '24h Volume',
-      value: '$120.5B',
-      change: '12.3%',
-      isPositive: true,
-    },
-    {
-      title: 'BTC Dominance',
-      value: '42.8%',
-      change: '1.2%',
-      isPositive: false,
-    },
-    {
-      title: 'ETH Dominance',
-      value: '18.3%',
-      change: '0.8%',
-      isPositive: true,
-    },
-  ];
-
   return (
     <div style={{ marginBottom: '1.5rem' }}>
       <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Market Overview</h2>
