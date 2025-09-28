@@ -437,6 +437,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </footer>
+      
       {/* Assistant Button */}
       <Button
         className="assistant-button"

@@ -1,25 +1,5 @@
-export interface MarketCoin {
-  id: string;
-  symbol: string;
-  name: string;
-  image?: string;
-  current_price: number;
-  market_cap: number;
-  total_volume: number;
-  price_change_percentage_24h?: number;
-  price_change_percentage_7d_in_currency?: number;
-}
-
-export interface CoinListItem {
-  id: number;
-  name: string;
-  symbol: string;
-  price: number;
-  change24h: number;
-  change7d: number;
-  marketCap: number;
-  volume24h: number;
-}
+import type { MarketCoin } from '../models/market-coin';
+import type { CoinListItem } from '../models/coin-list-item';
 
 const COINGECKO_BASE = 'https://api.coingecko.com/api/v3';
 

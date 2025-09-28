@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AppBar } from '@progress/kendo-react-layout';
 import { SvgIcon } from '@progress/kendo-react-common';
-import { menuIcon, homeIcon, gridIcon, bookIcon } from '@progress/kendo-svg-icons';
+import { menuIcon, homeIcon, gridIcon, bookIcon, gearIcon } from '@progress/kendo-svg-icons';
 import '../styles/Header.css';
 
 const Header: React.FC = () => {
@@ -59,6 +59,15 @@ const Header: React.FC = () => {
             >
               <SvgIcon icon={menuIcon} />
               <span>Coins</span>
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/settings" 
+              className={`k-button k-button-md k-rounded-md k-button-flat ${isActive('/settings') ? 'k-button-selected' : ''}`}
+            >
+              <SvgIcon icon={gearIcon} />
+              <span>Settings</span>
             </Link>
           </li>
         </ul>

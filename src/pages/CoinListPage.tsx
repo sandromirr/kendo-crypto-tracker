@@ -11,20 +11,14 @@ import MarketOverview from '../components/MarketOverview';
 import Header from '../components/Header';
 import { formatCurrency, formatPercentage } from '../utils/numberUtils';
 
-interface Coin extends CoinListItem {}
-
-interface GridCoin extends CoinListItem {
-  // Add any additional properties needed for the grid
-}
-
 const CoinListPage: React.FC = () => {
   // UI constants
   const currencies = ['USD', 'EUR', 'GBP', 'JPY'];
   const timeFrames = ['24h', '7d', '30d', '90d', '1y'];
   
   // Live data state
-  const [coins, setCoins] = useState<GridCoin[]>([]);
-  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
+  const [coins, setCoins] = useState<CoinListItem[]>([]);
+  const [selectedCoin, setSelectedCoin] = useState<CoinListItem | null>(null);
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [vsCurrency, setVsCurrency] = useState<string>('usd');
@@ -43,7 +37,6 @@ const CoinListPage: React.FC = () => {
         const items = await fetchMarketCoins(vsCurrency, itemsPerPage, pageNumber);
         if (!cancelled) {
           setCoins(items);
-          // Set a large enough number since we don't know the exact total
           setTotalItems(1000); // CoinGecko's max limit for free tier
         }
       } catch (e: any) {
@@ -64,7 +57,7 @@ const CoinListPage: React.FC = () => {
     }));
   };
 
-  const handleViewDetails = (coin: Coin) => {
+  const handleViewDetails = (coin: CoinListItem) => {
     setSelectedCoin(coin);
     setShowDetails(true);
   };
@@ -157,7 +150,7 @@ const CoinListPage: React.FC = () => {
                 width="150px"
                 headerClassName="text-center"
                 cells={{
-                  data: (props: { dataItem: GridCoin }) => {
+                  data: (props: { dataItem: CoinListItem }) => {
                     const coinId = props.dataItem.name.toLowerCase().replace(/[^a-z0-9]/g, '');
                     const imageUrl = `https://cryptoicons.org/api/icon/${props.dataItem.symbol.toLowerCase()}/50`;
                     const fallbackUrl = `https://cryptologos.cc/logos/${props.dataItem.symbol.toLowerCase()}-${coinId}-logo.png`;
@@ -212,7 +205,7 @@ const CoinListPage: React.FC = () => {
                 field="change24h" 
                 title="24h %"
                 cells={{
-                  data: (props: { dataItem: GridCoin }) => {
+                  data: (props: { dataItem: CoinListItem }) => {
                     const value = props.dataItem.change24h;
                     return (
                       <td className={`change-cell ${value >= 0 ? 'positive-change' : 'negative-change'}`}>
@@ -227,7 +220,7 @@ const CoinListPage: React.FC = () => {
                 title="7d %"
                 width="12%"
                 cells={{
-                  data: (props: { dataItem: GridCoin }) => {
+                  data: (props: { dataItem: CoinListItem }) => {
                     const value = props.dataItem.change7d;
                     return (
                       <td className={`change-cell ${value >= 0 ? 'positive-change' : 'negative-change'}`}>
@@ -242,7 +235,7 @@ const CoinListPage: React.FC = () => {
                 title="Market Cap" 
                 width="18%"
                 cells={{
-                  data: (props: { dataItem: GridCoin }) => (
+                  data: (props: { dataItem: CoinListItem }) => (
                     <td>
                       {formatCurrency(props.dataItem.marketCap, vsCurrency, 0)}
                     </td>
@@ -254,7 +247,7 @@ const CoinListPage: React.FC = () => {
                 title="Volume (24h)" 
                 width="18%"
                 cells={{
-                  data: (props: { dataItem: GridCoin }) => (
+                  data: (props: { dataItem: CoinListItem }) => (
                     <td>
                       {formatCurrency(props.dataItem.volume24h, vsCurrency, 0)}
                     </td>
@@ -281,7 +274,7 @@ const CoinListPage: React.FC = () => {
                             transition: 'all 0.2s ease',
                             fontWeight: 500
                           }}
-                          onClick={() => handleViewDetails(props.dataItem as Coin)}
+                          onClick={() => handleViewDetails(props.dataItem as CoinListItem)}
                         >
                           View
                         </Button>

@@ -1,7 +1,4 @@
-export interface FilterOption {
-  text: string;
-  value: string;
-}
+import type { FilterOption } from "./filter-option";
 
 export const levelOptions: FilterOption[] = [
   { text: 'All Levels', value: 'all' },

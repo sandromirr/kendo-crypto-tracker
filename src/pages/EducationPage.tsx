@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import courses from '../data/courses-data';
 import { levelOptions, durationOptions } from '../data/filter-options';
 import type { FilterOption } from '../models/filter-option';
-import './EducationPage.styles.css';
+import '../styles/EducationPage.css';
 
 const EducationPage: React.FC = () => {
   const [levelFilter, setLevelFilter] = useState<FilterOption>(levelOptions[0]);

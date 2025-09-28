@@ -8,20 +8,9 @@ import { Label } from '@progress/kendo-react-labels';
 import { Notification } from '@progress/kendo-react-notification';
 import { Fade } from '@progress/kendo-react-animation';
 import Header from '../components/Header';
+import { themeOptions } from '../data/theme-options';
+import { currencyOptions } from '../data/currency-options';
 import '../styles/SettingsPage.css';
-
-const themeOptions = [
-  { text: 'Light', value: 'light' },
-  { text: 'Dark', value: 'dark' },
-  { text: 'System', value: 'system' },
-];
-
-const currencyOptions = [
-  { text: 'US Dollar (USD)', value: 'USD' },
-  { text: 'Euro (EUR)', value: 'EUR' },
-  { text: 'British Pound (GBP)', value: 'GBP' },
-  { text: 'Japanese Yen (JPY)', value: 'JPY' },
-];
 
 interface SettingsFormValues {
   theme: string;
