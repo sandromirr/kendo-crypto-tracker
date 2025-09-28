@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+// import { Routes, Route, HashRouter } from 'react-router-dom'
+import { HashRouter, Routes, Route } from "react-router-dom";
 import './App.css'
 import HomePage from './pages/HomePage'
 import PortfolioPage from './pages/PortfolioPage'
@@ -17,14 +18,16 @@ const AppContent: React.FC = () => {
       backgroundColor: '#ffffff',
       color: '#212121'
     }}>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/coins" element={<CoinListPage />} />
-        <Route path="/education" element={<EducationPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/coins" element={<CoinListPage />} />
+          <Route path="/education" element={<EducationPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </HashRouter>
     </div>
   )
 }
