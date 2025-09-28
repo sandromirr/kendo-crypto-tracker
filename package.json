@@ -1,17 +1,16 @@
 {
-  "name": "kendo-crypto-tracker",
+  "homepage": "https://sandromirr.github.io/kendo-crypto-tracker",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://sandromirr.github.io/kendo-crypto-tracker",
   "engines": {
     "node": ">=22.5.1"
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
+    "lint": "eslint .",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
@@ -42,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
+    "@types/node": "^24.5.2",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react-swc": "^4.0.1",
