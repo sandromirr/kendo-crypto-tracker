@@ -6,10 +6,11 @@ import { DropDownList } from '@progress/kendo-react-dropdowns';
 import { Input } from '@progress/kendo-react-inputs';
 import { Card, CardHeader, CardTitle, CardBody } from '@progress/kendo-react-layout';
 import { Dialog } from '@progress/kendo-react-dialogs';
-import { fetchMarketCoins, type CoinListItem } from '../services/coingecko';
+import { fetchMarketCoins } from '../services/coingecko';
 import MarketOverview from '../components/MarketOverview';
 import Header from '../components/Header';
 import { formatCurrency, formatPercentage } from '../utils/numberUtils';
+import type { CoinListItem } from '../models/coin-list-item';
 
 const CoinListPage: React.FC = () => {
   // UI constants
